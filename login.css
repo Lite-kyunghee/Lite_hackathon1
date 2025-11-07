@@ -189,3 +189,50 @@ body.light-mode .login-container button:hover {
 body.light-mode .login-container h1 {
   color: #222 !important; /* 어두운 글씨로 변경 */
 }
+
+/* =============================== */
+/* 🌞 라이트 모드 색상 반전 (요청 반영) */
+/* =============================== */
+
+body.light-mode .login-card {
+  background-color: #ffffff; /* 카드 전체 흰색 */
+  color: #111; /* 글씨 어둡게 */
+  border: 1.5px solid #ccc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 제목 L.I.T.E */
+body.light-mode .login-title {
+  color: #000 !important; /* 검정 글씨 */
+}
+
+/* 부제 (경희고등학교 학생 포털 로그인) */
+body.light-mode .login-sub {
+  color: #444; /* 어두운 회색 */
+}
+
+/* 입력 그룹 라벨 */
+body.light-mode .input-group label {
+  color: #555;
+}
+
+/* 입력창 반전 (어두운 → 밝은) */
+body.light-mode .input-group input {
+  background: #f9f9f9; /* 밝은 회색 배경 */
+  color: #111; /* 검정 텍스트 */
+  border: 1.5px solid #ccc;
+}
+body.light-mode .input-group input::placeholder {
+  color: #777; /* 회색 placeholder */
+}
+
+/* 로그인 버튼은 그대로 유지 (그라데이션 그대로) */
+
+/* 회원가입 문구 반전 */
+body.light-mode .hint {
+  color: #333; /* 진한 회색 텍스트 */
+}
+body.light-mode .hint a {
+  color: #7b61ff; /* 기존 링크 색 유지 */
+}
+

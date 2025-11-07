@@ -370,3 +370,53 @@ body.light-mode .fab {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
 }
 
+/* =============================== */
+/* 🌞 라이트 모드: 위젯 추가 모달 반전 */
+/* =============================== */
+
+body.light-mode .modal-card {
+  background: #ffffff; /* 밝은 배경 */
+  color: #111; /* 어두운 텍스트 */
+  border: 1.5px solid #ccc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 모달 헤더, 푸터 경계선 */
+body.light-mode .modal-header,
+body.light-mode .modal-footer {
+  border-color: #ccc;
+}
+
+/* 닫기(X) 버튼 색상 변경 */
+body.light-mode #closeModal svg path {
+  stroke: #000; /* 검정색 아이콘 */
+}
+
+/* 위젯 버튼들 */
+body.light-mode .picker-item {
+  border: 1.5px dashed #444;
+  color: #111;
+  background: #f9f9f9;
+}
+body.light-mode .picker-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* 안내 문구 */
+body.light-mode .modal-footer small {
+  color: #333;
+}
+
+/* =============================== */
+/* 📍 닫기(X) 버튼 위치 오른쪽 정렬 */
+/* =============================== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#closeModal {
+  margin-left: auto; /* 오른쪽 끝으로 이동 */
+}
+

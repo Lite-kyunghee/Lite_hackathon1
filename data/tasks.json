@@ -1,0 +1,122 @@
+[
+  {
+    "subject": "영어",
+    "title": "영어 수행평가 3차: 발표",
+    "deadline": "2025-11-10",
+    "details": "주제 발표"
+  },
+  {
+    "subject": "과학",
+    "title": "과학 탐구 포트폴리오",
+    "deadline": "2025-11-15",
+    "details": "탐구 실험 보고서 제출"
+  },
+  {
+    "subject": "국어",
+    "title": "문학 감상문 작성",
+    "deadline": "2025-11-08",
+    "details": "현대문학 작품 1편 감상 후 에세이 작성"
+  },
+  {
+    "subject": "수학",
+    "title": "수학 수행평가: 함수 그래프 분석",
+    "deadline": "2025-11-12",
+    "details": "주어진 함수의 특징 분석 및 그래프 해석"
+  },
+  {
+    "subject": "사회",
+    "title": "사회 프로젝트 발표",
+    "deadline": "2025-11-20",
+    "details": "환경 문제 해결 방안 발표"
+  },
+  {
+    "subject": "역사",
+    "title": "역사 연구 보고서",
+    "deadline": "2025-11-18",
+    "details": "조선 시대 인물 연구 보고서 작성"
+  },
+  {
+    "subject": "기술",
+    "title": "기술 가정: 제품 설계 프로젝트",
+    "deadline": "2025-12-01",
+    "details": "생활 편의 제품 설계 및 발표"
+  },
+  {
+    "subject": "정보",
+    "title": "파이썬 기초 코딩 테스트",
+    "deadline": "2025-11-22",
+    "details": "조건문과 반복문 활용 문제 해결"
+  },
+  {
+    "subject": "체육",
+    "title": "체육 체력 평가",
+    "deadline": "2025-11-30",
+    "details": "50m 달리기 기록 제출"
+  },
+  {
+    "subject": "음악",
+    "title": "음악 리듬 분석",
+    "deadline": "2025-11-14",
+    "details": "클래식 음악 리듬 분석 보고서"
+  },
+  {
+    "subject": "미술",
+    "title": "미술 작품 제작",
+    "deadline": "2025-12-05",
+    "details": "추상화 작품 제작 및 감상문 작성"
+  },
+  {
+    "subject": "영어",
+    "title": "영어 듣기 평가",
+    "deadline": "2025-11-25",
+    "details": "듣기 평가 30문항"
+  },
+  {
+    "subject": "과학",
+    "title": "화학 실험 레포트",
+    "deadline": "2025-11-28",
+    "details": "산-염기 중화 실험 결과 작성"
+  },
+  {
+    "subject": "수학",
+    "title": "중간 프로젝트: 확률 분석",
+    "deadline": "2025-12-02",
+    "details": "주사위 확률 실험 분석"
+  },
+  {
+    "subject": "국어",
+    "title": "고전문학 토론",
+    "deadline": "2025-11-16",
+    "details": "흥부전 vs 놀부전 논쟁 준비"
+  },
+  {
+    "subject": "사회",
+    "title": "사회 통계 분석",
+    "deadline": "2025-12-03",
+    "details": "인구 통계 기반 사회 문제 분석"
+  },
+  {
+    "subject": "역사",
+    "title": "근대사 프레젠테이션",
+    "deadline": "2025-11-29",
+    "details": "근대 혁명 비교 발표"
+  },
+  {
+    "subject": "정보",
+    "title": "웹사이트 제작",
+    "deadline": "2025-12-10",
+    "details": "HTML/CSS로 홈페이지 제작"
+  },
+  {
+    "subject": "기술",
+    "title": "3D 프린팅 모델 제작",
+    "deadline": "2025-12-15",
+    "details": "생활 도구 3D 모델링"
+  },
+  {
+    "subject": "음악",
+    "title": "작곡 미션",
+    "deadline": "2025-11-27",
+    "details": "8마디 멜로디 작곡"
+  }
+]

@@ -3,174 +3,125 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>경희고 학생 포털</title>
-  <style>
-    :root{
-      --bg: #ffffff;
-      --text: #111827; /* gray-900 */
-      --muted: #6b7280; /* gray-500 */
-      --primary: #2563eb; /* blue-600 */
-      --primary-hover:#1d4ed8; /* blue-700 */
-      --border:#e5e7eb; /* gray-200 */
-      --shadow: 0 10px 25px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
-      --sidebar-w: 320px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;}
-    body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background:var(--bg); color:var(--text);
-    }
-    /* Header */
-    .header{
-      position:fixed; inset:0 0 auto 0; height:64px; display:flex; align-items:center; gap:12px; padding:0 16px; z-index:40;
-      backdrop-filter:saturate(180%) blur(6px);
-    }
-    .hamburger{
-      display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; border:1px solid var(--border);
-      background:#fff; cursor:pointer; box-shadow:var(--shadow);
-    }
-    .hamburger:active{transform:translateY(1px)}
-    .brand{font-weight:700; letter-spacing:.2px}
-    .brand small{color:var(--muted); font-weight:500}
+  <title>L.I.T.E</title>
 
-    /* Main */
-    .main{ min-height:100dvh; display:grid; place-items:center; padding:96px 16px 24px; }
-    .search-card{ width:min(720px, 100%); text-align:center; }
-    .logo{
-      font-size:44px; font-weight:800; letter-spacing:-.5px; margin-bottom:20px;
-      background:linear-gradient(90deg,#111827,#1f2937,#2563eb); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .subtitle{ color:var(--muted); margin:6px 0 22px; }
-
-    .search{
-      display:flex; align-items:center; gap:8px; padding:10px; border:1px solid var(--border); border-radius:999px; background:#fff; box-shadow:var(--shadow);
-    }
-    .search input{
-      flex:1; border:none; outline:none; font-size:18px; padding:10px 14px; background:transparent;
-    }
-    .btn{
-      appearance:none; border:none; cursor:pointer; padding:12px 18px; border-radius:999px; font-weight:600; transition:transform .02s ease;
-      background:var(--primary); color:#fff;
-    }
-    .btn:active{ transform:translateY(1px); }
-    .helper{ margin-top:14px; color:var(--muted); font-size:14px }
-
-    /* Sidebar */
-    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.35); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:45; }
-    .sidebar{ position:fixed; inset:0 auto 0 0; width:var(--sidebar-w); max-width:88vw; background:#fff; border-right:1px solid var(--border); box-shadow:var(--shadow); transform:translateX(-100%); transition:transform .25s ease; z-index:50; display:flex; flex-direction:column; }
-    .sidebar header{ padding:18px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-    .sidebar header .title{ font-weight:700 }
-    .close{ border:none; background:transparent; font-size:24px; cursor:pointer; line-height:1 }
-    .menu{ padding:8px 0; overflow:auto; }
-    .menu a{
-      display:flex; align-items:center; gap:12px; padding:12px 16px; color:inherit; text-decoration:none; border-left:3px solid transparent;
-    }
-    .menu a:hover{ background:#f9fafb; border-left-color:var(--primary) }
-    .menu .icon{ width:26px; display:inline-flex; align-items:center; justify-content:center; }
-    .footer{ margin-top:auto; padding:12px 16px; border-top:1px solid var(--border); color:var(--muted); font-size:13px }
-
-    /* Responsive tweaks */
-    @media (max-width:480px){
-      .logo{ font-size:34px }
-      .search input{ font-size:16px }
-    }
-
-    /* Open states */
-    .is-open .overlay{ opacity:1; pointer-events:auto }
-    .is-open .sidebar{ transform:translateX(0) }
-  </style>
+  <!-- 스타일 -->
+  <link rel="stylesheet" href="lite_hackathon.css" />
+  <!-- Font Awesome (아이콘) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <!-- Top header -->
-  <div class="header" role="banner">
-    <button class="hamburger" id="openSidebar" aria-label="메뉴 열기" title="메뉴">
-      <!-- Hamburger icon -->
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M3 6h18M3 12h18M3 18h18" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </button>
-    <div class="brand">경희고 학생 포털 <small>Beta</small></div>
-  </div>
+  <!-- 사이드바 오버레이 -->
+  <div class="overlay" id="overlay"></div>
 
-  <!-- Main content -->
-  <main class="main" role="main">
-    <section class="search-card" aria-label="검색">
-      <h1 class="logo" aria-label="경희고 학생 포털">Kyung Hee High</h1>
-      <p class="subtitle">구글처럼 간단한 검색, 학교 생활을 위한 모든 기능</p>
-      <form class="search" id="searchForm" role="search" aria-label="사이트 검색">
-        <input id="q" name="q" type="search" placeholder="무엇을 찾아볼까요? (예: 수행평가 일정)" autocomplete="off" aria-label="검색어 입력" />
-        <button class="btn" type="submit" aria-label="검색">검색</button>
-      </form>
-      <div class="helper">엔터를 눌러 검색하거나, 왼쪽 상단 메뉴(≡)에서 기능을 선택하세요.</div>
+  <!-- 사이드바: 부가기능 -->
+  <aside id="sidebar" class="sidebar" aria-label="부가기능">
+    <header class="sidebar-header">
+      <strong>부가기능</strong>
+      <button class="icon-btn" id="closeSidebar" aria-label="사이드바 닫기"><i class="fa-solid fa-xmark"></i></button>
+    </header>
+    <nav class="sidebar-menu">
+      <a href="#" class="menu-item">📝 수행평가</a>
+      <a href="#" class="menu-item">📊 성적조회</a>
+      <a href="#" class="menu-item">✅ 정기고사 모범답</a>
+      <a href="#" class="menu-item">🧮 정기고사 가채점</a>
+      <a href="#" class="menu-item">📚 모의고사 학습</a>
+      <a href="#" class="menu-item">🔔 알림신청</a>
+      <a href="#" class="menu-item">🗂️ 경희 게시판</a>
+      <a href="#" class="menu-item">💼 포트폴리오</a>
+      <a href="#" class="menu-item">🧭 진로상담</a>
+      <a href="#" class="menu-item">🗓️ 학교일정</a>
+    </nav>
+    <footer class="sidebar-footer">© <span id="year"></span> L.I.T.E</footer>
+  </aside>
+
+  <!-- 헤더 -->
+  <header class="header">
+    <button class="icon-btn" id="openSidebar" aria-label="메뉴 열기">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- 중앙 로고(문자) — 나중에 아이콘으로 대체 예정 -->
+    <div class="logo">L.I.T.E</div>
+
+    <!-- 우측 로그인 -->
+    <button class="icon-btn circle" id="loginBtn" title="로그인">
+      <i class="fa-solid fa-right-to-bracket"></i>
+    </button>
+  </header>
+
+  <!-- 메인 -->
+  <main class="container">
+    <!-- 검색 -->
+    <form class="search" id="searchForm" role="search" aria-label="사이트 검색">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="q" type="search" placeholder="무엇이든 물어보세요..." autocomplete="off" />
+    </form>
+
+    <!-- 위젯 그리드 -->
+    <section id="widgetGrid" class="widget-grid" aria-label="위젯 영역">
+      <!-- 기본 위젯: 시간표 -->
+      <article class="widget" data-widget="timetable">
+        <header class="widget-header">
+          <h3>시간표</h3>
+          <button class="icon-btn sm remove-widget" title="위젯 삭제"><i class="fa-solid fa-xmark"></i></button>
+        </header>
+        <div class="widget-body">
+          <div class="timetable">
+            <!-- 5x6 예시 그리드 -->
+            <div class="cells">
+              <!-- JS로 5x6 칸 생성 -->
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 기본 위젯: 오늘의 급식 -->
+      <article class="widget" data-widget="lunch">
+        <header class="widget-header">
+          <h3>오늘의 급식</h3>
+          <button class="icon-btn sm remove-widget" title="위젯 삭제"><i class="fa-solid fa-xmark"></i></button>
+        </header>
+        <div class="widget-body">
+          <ul class="lunch-list">
+            <li>밥 · 국 · 메인 반찬</li>
+            <li>부반찬 A</li>
+            <li>부반찬 B</li>
+            <li>디저트(과일/요거트)</li>
+          </ul>
+        </div>
+      </article>
     </section>
+
+    <!-- 플로팅 + 버튼 -->
+    <button id="fabAdd" class="fab" title="위젯 추가">
+      <i class="fa-solid fa-plus"></i>
+    </button>
   </main>
 
-  <!-- Sidebar + overlay -->
-  <div class="overlay" id="overlay" aria-hidden="true"></div>
-  <nav class="sidebar" id="sidebar" aria-label="부가 기능 사이드바" aria-hidden="true">
-    <header>
-      <div class="title">부가 기능</div>
-      <button class="close" id="closeSidebar" aria-label="메뉴 닫기">×</button>
-    </header>
-    <div class="menu" role="menu">
-      <a href="#" role="menuitem"><span class="icon">📝</span>수행평가</a>
-      <a href="#" role="menuitem"><span class="icon">🧭</span>진로상담</a>
-      <a href="#" role="menuitem"><span class="icon">💼</span>포트폴리오</a>
-      <a href="#" role="menuitem"><span class="icon">📈</span>성적상담</a>
-      <a href="#" role="menuitem"><span class="icon">✅</span>정기고사 모범답</a>
-      <a href="#" role="menuitem"><span class="icon">🧮</span>정기고사 가채점</a>
-      <a href="#" role="menuitem"><span class="icon">🧪</span>모의고사 가채점</a>
-      <a href="#" role="menuitem"><span class="icon">📚</span>모의고사 학습</a>
-      <a href="#" role="menuitem"><span class="icon">🏫</span>학교 기출문제</a>
-      <a href="#" role="menuitem"><span class="icon">🔔</span>알림신청</a>
+  <!-- 위젯 추가 모달 -->
+  <div class="modal" id="widgetModal" aria-hidden="true" role="dialog" aria-label="위젯 추가">
+    <div class="modal-card">
+      <header class="modal-header">
+        <strong>위젯 추가</strong>
+        <button class="icon-btn" id="closeModal" aria-label="모달 닫기"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="modal-body">
+        <div class="widget-picker">
+          <button class="picker-item" data-widget="timetable">🗓️ 시간표</button>
+          <button class="picker-item" data-widget="lunch">🍱 오늘의 급식</button>
+          <button class="picker-item" data-widget="exam-schedule">📝 수행평가 일정</button>
+          <button class="picker-item" data-widget="calendar">📆 캘린더</button>
+          <button class="picker-item" data-widget="notice">🔔 알림</button>
+        </div>
+      </div>
+      <footer class="modal-footer">
+        <small>원하는 위젯을 클릭하면 바로 추가됩니다.</small>
+      </footer>
     </div>
-    <div class="footer">© <span id="year"></span> Kyung Hee High. All rights reserved.</div>
-  </nav>
+  </div>
 
-  <script>
-    // Elements
-    const body = document.body;
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openBtn = document.getElementById('openSidebar');
-    const closeBtn = document.getElementById('closeSidebar');
-    const yearEl = document.getElementById('year');
-    yearEl.textContent = new Date().getFullYear();
-
-    // Sidebar open/close helpers
-    const openSidebarFn = () => {
-      body.classList.add('is-open');
-      sidebar.setAttribute('aria-hidden', 'false');
-      overlay.setAttribute('aria-hidden', 'false');
-    };
-    const closeSidebarFn = () => {
-      body.classList.remove('is-open');
-      sidebar.setAttribute('aria-hidden', 'true');
-      overlay.setAttribute('aria-hidden', 'true');
-    };
-
-    openBtn.addEventListener('click', openSidebarFn);
-    closeBtn.addEventListener('click', closeSidebarFn);
-    overlay.addEventListener('click', closeSidebarFn);
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSidebarFn(); });
-
-    // Search behavior (stub): navigate to a pseudo results page with query param
-    document.getElementById('searchForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const q = (document.getElementById('q').value || '').trim();
-      if(!q){
-        alert('검색어를 입력해주세요.');
-        return;
-      }
-      // 실제 검색 백엔드가 없다면 아래처럼 더미 페이지로 이동하거나 처리합니다.
-      // location.href = `results.html?q=${encodeURIComponent(q)}`;
-      alert(`검색 기능 준비 중입니다.\n입력한 검색어: ${q}`);
-    });
-
-    // Prevent focus trap issues for accessibility when sidebar opens
-    // (Simple approach: move focus to close button on open)
-    openBtn.addEventListener('click', ()=>{ setTimeout(()=> closeBtn.focus(), 50); });
-  </script>
+  <!-- 스크립트 -->
+  <script src="lite_hackathon.js"></script>
 </body>
 </html>

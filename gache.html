@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>가채점 시스템</title>
+  <link rel="stylesheet" href="gache.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">경희고 가채점</div>
+    <div class="right">사용자: <strong id="userName">학생</strong></div>
+  </header>
+
+  <main class="wrap">
+    <!-- STEP 1: 시험 유형 선택 -->
+    <section id="view-select" class="card view">
+      <h2>시험 유형 선택</h2>
+      <div class="btn-row">
+        <button class="big-btn" data-type="mock">모의고사</button>
+        <button class="big-btn" data-type="regular">정기고사</button>
+      </div>
+      <p class="hint">실제 시험일에만 해당 시험의 가채점 페이지로 들어갈 수 있습니다.</p>
+    </section>
+
+    <!-- STEP 2: 시험 목록 (동적 생성) -->
+    <section id="view-examlist" class="card view" style="display:none;">
+      <button class="back" data-target="view-select">← 뒤로</button>
+      <h2 id="examTitle">시험 선택</h2>
+      <div id="examList" class="list"></div>
+      <p class="hint">해당 시험일(정확한 날짜)에만 과목 선택으로 들어갈 수 있습니다.</p>
+    </section>
+
+    <!-- STEP 3: 과목 선택 -->
+    <section id="view-subject" class="card view" style="display:none;">
+      <button class="back" data-target="view-examlist">← 뒤로</button>
+      <h2 id="examNameDisplay">시험명</h2>
+      <div id="subjectList" class="list"></div>
+    </section>
+
+    <!-- STEP 4: 가채점 폼 -->
+    <section id="view-mark" class="card view" style="display:none;">
+      <button class="back" data-target="view-subject">← 뒤로</button>
+      <h2 id="markHeader">가채점</h2>
+
+      <div class="form-row">
+        <label>정답 키 (콤마로 구분, 예: A,B,C,D)</label>
+        <input id="answerKey" placeholder="정답을 입력하세요 (예: A,B,C,D)" />
+      </div>
+
+      <div class="form-row">
+        <label>내 답안 (콤마로 구분)</label>
+        <input id="userAnswers" placeholder="내 답안을 입력하세요 (예: A,B,C,D)" />
+      </div>
+
+      <div class="form-row small">
+        <label>문항 수 자동 체크</label>
+        <div id="qCount">—</div>
+      </div>
+
+      <div class="actions">
+        <button id="doMark" class="primary">채점하기</button>
+        <button id="saveLocal" class="muted">저장 후 결과 보기</button>
+      </div>
+
+      <div id="markResult" class="result" aria-live="polite" style="display:none;"></div>
+    </section>
+
+    <!-- STEP 5: 종합 결과 -->
+    <section id="view-summary" class="card view" style="display:none;">
+      <button class="back" data-target="view-select">← 돌아가기</button>
+      <h2>내 가채점 종합 결과</h2>
+      <div id="summaryArea"></div>
+      <div class="small-note">※ 로컬(브라우저) 저장 기반입니다. 전체 학생 데이터를 서버에 모으면 더 신뢰성 높은 등급 예측 가능.</div>
+      <div style="margin-top:12px;">
+        <button id="exportData" class="muted">로컬 데이터 내보내기 (JSON)</button>
+        <button id="clearData" class="danger">로컬 데이터 초기화</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    © 경희고 — 가채점 시스템 (로컬 데모)
+  </footer>
+
+  <script src="gache.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+/* gache.css - 가채점 전용 스타일 (심플/가독성) */
+:root{
+  --bg:#f6f8fb;
+  --card:#fff;
+  --accent:#2563eb;
+  --muted:#64748b;
+  --danger:#dc2626;
+  --success:#10b981;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter, "Noto Sans KR", system-ui, -apple-system; }
+html,body{height:100%;background:var(--bg);color:#0f172a;}
+
+.topbar{
+  height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 20px;
+  background:linear-gradient(90deg,#fff,#fbfdff); border-bottom:1px solid #e6eefb;
+}
+.brand{font-weight:800;color:var(--accent);}
+.right{color:var(--muted);font-size:14px;}
+
+.wrap{max-width:980px;margin:20px auto;padding:8px;}
+
+.card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(12,24,48,0.06); margin-bottom:14px;}
+
+.view h2{margin-bottom:12px;font-size:18px;}
+.btn-row{display:flex;gap:12px;}
+.big-btn{flex:1;padding:18px;border-radius:10px;border:1px solid rgba(37,99,235,0.12);background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;font-weight:700;cursor:pointer;}
+.big-btn:hover{transform:translateY(-2px)}
+
+.hint{margin-top:8px;color:var(--muted);font-size:13px}
+
+.list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.list button{padding:12px 14px;border-radius:10px;border:1px solid #e6eefb;background:#fafcff; cursor:pointer;font-weight:700;color:#0f172a}
+.list button:hover{background:#f1f8ff;border-color:var(--accent)}
+
+.back{background:transparent;border:none;color:var(--accent);font-weight:700;margin-bottom:8px;cursor:pointer}
+
+.form-row{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.form-row input{padding:10px;border-radius:8px;border:1px solid #e6eefb}
+.form-row.small{flex-direction:row;align-items:center;justify-content:space-between}
+.form-row.small #qCount{color:var(--muted);font-weight:700}
+
+.actions{display:flex;gap:10px;margin-top:12px}
+.primary{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+.muted{background:#fff;border:1px solid #e6eefb;padding:10px 12px;border-radius:8px;cursor:pointer}
+.danger{background:var(--danger);color:#fff;padding:8px 12px;border-radius:8px;border:none}
+
+.result{margin-top:14px;padding:12px;border-radius:8px;background:#f8fbff;border:1px solid #e6f0ff}
+
+.small-note{color:var(--muted);font-size:13px;margin-top:8px}
+
+.foot{height:56px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;}

@@ -1,98 +1,97 @@
-// App.js
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 function App() {
-  // 로그인 관련 상태
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [type, setType] = useState(""); // mock / regular
+  const [testName, setTestName] = useState("");
+  const [subject, setSubject] = useState("");
+  const [score, setScore] = useState("");
+  const [message, setMessage] = useState("");
+  const [predicted, setPredicted] = useState(null);
 
-  // 과제 생성 관련 상태
-  const [title, setTitle] = useState('');
-  const [file, setFile] = useState(null);
+  const api = "http://localhost:5000/api";
 
-  const apiBase = 'http://localhost:5000/api';
-
-  // --------------------------
-  // 로그인 요청
-  // --------------------------
-  const handleLogin = async () => {
-    try {
-      const res = await axios.post(`${apiBase}/login`, { username: email });
-      const newToken = res.data.access_token;
-      localStorage.setItem('token', newToken);
-      setToken(newToken);
-      alert('로그인 성공!');
-    } catch (err) {
-      console.error(err);
-      alert('로그인 실패');
-    }
+  const testOptions = {
+    mock: ["9월", "10월"],
+    regular: ["1학기 중간", "1학기 기말", "2학기 중간", "2학기 기말"],
   };
 
-  // --------------------------
-  // 과제 생성 요청 (파일 포함)
-  // --------------------------
-  const handleCreateAssignment = async () => {
-    if (!token) {
-      alert('로그인 후 이용하세요.');
-      return;
-    }
-    if (!title) {
-      alert('제목을 입력하세요.');
-      return;
-    }
+  const subjects = ["국어", "수학", "영어", "탐구"];
 
-    try {
-      const formData = new FormData();
-      formData.append('title', title);
-      if (file) formData.append('file', file);
+  // 날짜 체크
+  const handleCheckDate = async () => {
+    const res = await axios.post(`${api}/check-date`, { type, name: testName });
+    setMessage(res.data.msg);
+  };
 
-      const res = await axios.post(`${apiBase}/assignments`, formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+  // 점수 제출
+  const handleSubmit = async () => {
+    await axios.post(`${api}/submit-score`, {
+      username: "student1",
+      type,
+      name: testName,
+      subject,
+      score,
+    });
+    setMessage(`${subject} 점수 ${score}점 저장 완료`);
+  };
 
-      alert('과제 생성 성공! ID: ' + res.data.id);
-    } catch (err) {
-      console.error(err);
-      alert('과제 생성 실패: ' + (err.response?.data?.msg || err.message));
-    }
+  // 예상 등급 계산
+  const handlePredict = async () => {
+    const scores = [92, 85, 78, 83]; // 실제로는 사용자 입력 데이터 기반
+    const res = await axios.post(`${api}/predict-grade`, { scores });
+    setPredicted(res.data);
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-      <h2>Flask 연동 테스트</h2>
+    <div style={{ padding: "30px" }}>
+      <h1>가채점 프로그램</h1>
 
-      {!token ? (
-        <div>
-          <input
-            type="text"
-            placeholder="아이디 (username)"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <br />
-          <button onClick={handleLogin}>로그인</button>
+      <div>
+        <button onClick={() => setType("mock")}>모의고사</button>
+        <button onClick={() => setType("regular")}>정기고사</button>
+      </div>
+
+      {type && (
+        <div style={{ marginTop: "20px" }}>
+          <h2>{type === "mock" ? "모의고사 선택" : "정기고사 선택"}</h2>
+          <select onChange={(e) => setTestName(e.target.value)}>
+            <option value="">선택</option>
+            {testOptions[type].map((t) => (
+              <option key={t}>{t}</option>
+            ))}
+          </select>
+          <button onClick={handleCheckDate}>입장</button>
         </div>
-      ) : (
+      )}
+
+      {message && <p>{message}</p>}
+
+      {testName && (
         <div>
-          <h3>과제 생성</h3>
+          <h3>과목별 가채점</h3>
+          <select onChange={(e) => setSubject(e.target.value)}>
+            <option value="">과목 선택</option>
+            {subjects.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </select>
           <input
-            type="text"
-            placeholder="과제 제목"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            type="number"
+            placeholder="점수 입력"
+            value={score}
+            onChange={(e) => setScore(e.target.value)}
           />
-          <br />
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          <br />
-          <button onClick={handleCreateAssignment}>과제 생성</button>
+          <button onClick={handleSubmit}>제출</button>
+          <button onClick={handlePredict}>예상 등급 보기</button>
+        </div>
+      )}
+
+      {predicted && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>📊 결과</h3>
+          <p>평균 점수: {predicted.average.toFixed(2)}점</p>
+          <p>예상 등급: {predicted.predicted_grade}등급</p>
         </div>
       )}
     </div>

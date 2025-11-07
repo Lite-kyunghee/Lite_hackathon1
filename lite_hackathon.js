@@ -166,3 +166,38 @@ $$('.remove-widget').forEach(btn=>{
 
 /* ✅ 페이지 로드 시 초기 상태 확인 */
 updateWidgetHint();
+
+// === 다크모드 / 라이트모드 토글 ===
+// === 다크모드 / 라이트모드 토글 ===
+document.addEventListener('DOMContentLoaded', () => {
+  const themeBtn = document.getElementById('themeToggle');
+  const body = document.body;
+
+  // 페이지 로드 시 저장된 테마 불러오기
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    body.classList.add('light-mode');
+    themeBtn.textContent = '☀️';
+  } else {
+    themeBtn.textContent = '🌙';
+  }
+
+  // 버튼 클릭 시 테마 변경
+  themeBtn.addEventListener('click', () => {
+    body.classList.add('theme-transition'); // 페이드 효과
+    setTimeout(() => body.classList.remove('theme-transition'), 500);
+
+    body.classList.toggle('light-mode');
+    const isLight = body.classList.contains('light-mode');
+    themeBtn.textContent = isLight ? '☀️' : '🌙';
+
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
+});
+
+document.body.classList.add('theme-transition');
+setTimeout(() => {
+  document.body.classList.remove('theme-transition');
+}, 600);
+
+

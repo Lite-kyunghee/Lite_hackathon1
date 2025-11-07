@@ -15,9 +15,10 @@ $('#overlay').addEventListener('click', closeSidebar);
 window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSidebar(); });
 
 /* ========== Login (stub) ========== */
-$('#loginBtn').addEventListener('click', ()=> {
-  alert('로그인 기능은 곧 추가될 예정입니다.');
+$('#loginBtn').addEventListener('click', () => {
+  window.location.href = "login.html";
 });
+
 
 /* ========== Search (stub) ========== */
 $('#searchForm').addEventListener('submit', (e)=>{

@@ -1,0 +1,131 @@
+:root {
+  --bg: #0c0f13;
+  --card: #12161d;
+  --accent: #6ea8ff;
+  --accent2: #9b7bff;
+  --text: #e7e7ec;
+  --muted: #a2a8b4;
+  --border: rgba(231,231,236,0.2);
+  --radius: 16px;
+  --shadow: 0 18px 50px rgba(0,0,0,.45), 0 6px 16px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+/* 중앙 카드 */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 48px 42px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  width: 100%;
+  max-width: 380px;
+  animation: fadeIn .6s ease;
+}
+
+.login-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: .3rem;
+  margin-bottom: 8px;
+}
+
+.login-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+
+/* 폼 입력 */
+.input-group {
+  text-align: left;
+  margin-bottom: 22px;
+}
+.input-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: #1a1f27;
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color .15s ease;
+}
+.input-group input:focus {
+  border-color: var(--accent);
+}
+
+/* 버튼 */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: var(--shadow);
+  transition: transform .1s ease;
+}
+.login-btn:active {
+  transform: scale(0.97);
+}
+
+/* 회원가입 문구 */
+.hint {
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.hint a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.hint a:hover {
+  text-decoration: underline;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 반응형 */
+@media (max-width: 500px) {
+  .login-card {
+    padding: 36px 28px;
+  }
+  .login-title {
+    font-size: 28px;
+  }
+}

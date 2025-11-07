@@ -1,3 +1,23 @@
+const searchForm = document.getElementById("searchForm");
+const searchInput = document.getElementById("q");
+
+searchForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const q = searchInput.value.trim();
+    if (!q) return;
+
+    // 챗봇 요청 보내기
+    const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: q })
+    });
+
+    const data = await res.json();
+    showChatResult(data.answer);
+});
+
 // Helper
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
@@ -30,13 +50,7 @@ $('#loginBtn').addEventListener('click', () => {
   window.location.href = 'login.html';
 });
 
-/* ========== Search (stub) ========== */
-$('#searchForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const q = ($('#q').value || '').trim();
-  if (!q) return alert('검색어를 입력하세요.');
-  alert(`검색 기능 준비 중입니다.\n입력한 검색어: ${q}`);
-});
+
 
 /* ========== Timetable grid ========== */
 (function buildTimetable() {
@@ -312,3 +326,13 @@ async function loadTodayLunch() {
 
 // 페이지 로드 시 실행
 document.addEventListener('DOMContentLoaded', loadTodayLunch);
+
+function showChatResult(text) {
+    const box = document.getElementById("chatResult");
+    box.classList.remove("hidden");
+    box.textContent = text;
+    
+    // 검색창 커지면서 아래로 밀리는 효과
+    box.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+

@@ -5,11 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>L.I.T.E | 수행평가 관리 시스템</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b132b;
+      --panel: #0f172a;
+      --panel-2: #0b1020;
+      --line: rgba(148, 163, 253, 0.18);
+      --line-2: rgba(75, 85, 99, 0.35);
+      --ink: #fff;
+      --sub: #9ca3af;
+      --brand: #4f46e5;
+      --brand-2: #38bdf8;
+      --warn: #fb7185;
+      --ok: #22c55e;
+      --muted: #6b7280;
+      --gold: #facc15;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
-      background: #0b132b;
-      color: #fff;
+      background: var(--bg);
+      color: var(--ink);
     }
     header {
       position: sticky;
@@ -34,14 +51,23 @@
       padding: 0 1rem;
     }
     .toolbar {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr repeat(4, max-content);
       gap: 0.5rem;
       align-items: center;
       margin-bottom: 1rem;
     }
-    input[type="search"],
-    select {
+    @media (max-width: 860px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+    @media (max-width: 540px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    input[type="search"], select {
       padding: 0.6rem 0.9rem;
       border-radius: 8px;
       border: none;
@@ -50,11 +76,9 @@
       outline: none;
       min-width: 140px;
     }
-    input::placeholder {
-      color: rgba(148, 163, 253, 0.7);
-    }
+    input::placeholder { color: rgba(148, 163, 253, 0.7); }
     .btn {
-      padding: 0.5rem 0.9rem;
+      padding: 0.55rem 0.9rem;
       border-radius: 8px;
       border: 1px solid rgba(129, 140, 248, 0.5);
       background: rgba(15, 23, 42, 0.9);
@@ -64,59 +88,57 @@
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
+      white-space: nowrap;
     }
     .btn:hover {
       background: rgba(79, 70, 229, 0.9);
       box-shadow: 0 0 12px rgba(79, 70, 229, 0.5);
     }
+    .btn.toggle-on {
+      background: rgba(79, 70, 229, 0.9);
+      border-color: rgba(79, 70, 229, 0.9);
+    }
     .card {
-      background: rgba(15, 23, 42, 0.98);
+      background: var(--panel);
       border-radius: 14px;
-      border: 1px solid rgba(148, 163, 253, 0.18);
+      border: 1px solid var(--line);
       overflow: hidden;
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
     thead th {
       text-align: left;
       padding: 0.75rem 1rem;
       background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.22), transparent);
       border-bottom: 1px solid rgba(148, 163, 253, 0.25);
-      font-weight: 600;
+      font-weight: 700;
       color: #c7d2fe;
       white-space: nowrap;
     }
     tbody td {
-      padding: 0.7rem 1rem;
-      border-top: 1px solid rgba(75, 85, 99, 0.35);
+      padding: 0.72rem 1rem;
+      border-top: 1px solid var(--line-2);
       vertical-align: middle;
+      background: var(--panel-2);
     }
-    tbody tr:nth-child(even) {
-      background: rgba(15, 23, 42, 0.98);
-    }
-    tbody tr:nth-child(odd) {
-      background: rgba(9, 9, 20, 0.98);
-    }
+    tbody tr:nth-child(even) td { background: var(--panel); }
     .badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 0.13rem 0.5rem;
-      margin-left: 0.25rem;
+      margin-left: 0.35rem;
       border-radius: 999px;
       font-size: 0.7rem;
       border: 1px solid rgba(129, 140, 248, 0.8);
       color: #a5b4fc;
       background: rgba(17, 24, 39, 0.96);
     }
-    .grade {
-      color: #38bdf8;
-      font-weight: 500;
-    }
+    .grade { color: var(--brand-2); font-weight: 600; }
     .favorite-btn {
       background: none;
       border: none;
@@ -125,54 +147,50 @@
       color: rgba(148, 163, 253, 0.4);
       padding: 0;
     }
-    .favorite-btn.active {
-      color: #facc15;
-      text-shadow: 0 0 8px rgba(250, 204, 21, 0.7);
+    .favorite-btn.active { color: var(--gold); text-shadow: 0 0 8px rgba(250, 204, 21, 0.7); }
+    .dday { font-weight: 700; color: var(--brand-2); }
+    .dday.expired { color: var(--warn); }
+    .dday.today { color: var(--ok); }
+    .dday.none { color: var(--muted); font-weight: 500; }
+    .empty { text-align: center; padding: 1rem; color: #9ca3af; }
+
+    /* 하이라이트 애니메이션 */
+    .focus-hit {
+      position: relative;
+      outline: 2px solid #60a5fa;
+      animation: blink 1.2s ease-in-out 0s 2 alternate;
+      scroll-margin-top: 84px;
     }
-    .dday {
-      font-weight: 600;
-      color: #38bdf8;
+    @keyframes blink {
+      from { box-shadow: 0 0 0px rgba(96,165,250,0.0); }
+      to   { box-shadow: 0 0 24px rgba(96,165,250,0.7); }
     }
-    .dday.expired {
-      color: #fb7185;
-    }
-    .dday.today {
-      color: #22c55e;
-    }
-    .dday.none {
-      color: #6b7280;
-      font-weight: 400;
-    }
-    .empty {
-      text-align: center;
-      padding: 1rem;
-      color: #9ca3af;
-    }
+
     @media (max-width: 720px) {
       thead th:nth-child(2),
-      tbody td:nth-child(2) {
-        display: none; /* 교사 컬럼 모바일에서 축소 */
-      }
+      tbody td:nth-child(2) { display: none; } /* 교사 컬럼 모바일 축소 */
     }
   </style>
 </head>
 <body>
   <header>
-    <button class="btn" onclick="history.back()">← 뒤로</button>
+    <button class="btn" id="backBtn">← 뒤로</button>
+
+    
     <div class="title">📝 수행평가 관리 시스템</div>
   </header>
 
   <main>
     <div class="toolbar">
-      <input id="searchInput" type="search" placeholder="제목 또는 담당 교사 검색…" />
-      <select id="gradeFilter">
+      <input id="searchInput" type="search" placeholder="제목/교사/학년/과목 검색…" />
+      <select id="gradeFilter" title="학년 필터">
         <option value="">전체 학년</option>
         <option value="1학년">1학년</option>
         <option value="2학년">2학년</option>
         <option value="3학년">3학년</option>
         <option value="전학년">전학년</option>
       </select>
-      <select id="subjectFilter">
+      <select id="subjectFilter" title="과목 필터">
         <option value="">전체 과목</option>
         <option value="국어">국어</option>
         <option value="영어">영어</option>
@@ -180,8 +198,9 @@
         <option value="과학">과학</option>
         <option value="기타">기타</option>
       </select>
-      <button class="btn" id="sortBtn">📅 마감일순</button>
-      <button class="btn" id="favBtn">⭐ 즐겨찾기만</button>
+      <button class="btn" id="nearBtn" title="임박만(3일 이내) 토글">⏰ 임박만</button>
+      <button class="btn" id="sortBtn" title="마감일순 정렬 토글">📅 마감일순</button>
+      <button class="btn" id="favBtn" title="즐겨찾기만 토글">⭐ 즐겨찾기만</button>
     </div>
 
     <section class="card">
@@ -204,104 +223,152 @@
   </main>
 
   <script>
-    // =============== 데이터 정의 ===============
-    // 전학년+기타 항목은 due: null -> D-Day, 알림 대상 제외
-    const SUHANG = [
-      // 2학년 정규/과학/수학/국어/영어 등 (2학기 기준 10~11월 정도로 임의 배정)
-      { title: '2025년 2학년 과학 - 물리학 추가탐구 보고서 제출', teacher: '유혜원', grade: '2학년', subject: '과학', due: '2025-10-10' },
-      { title: '2025년 2학년 과학 - [화학Ⅰ] 화학탐구보고서 제출', teacher: '황윤서, 장다정', grade: '2학년', subject: '과학', due: '2025-10-12' },
-      { title: '2025년 2학년 수학 - 기하 2학기 발표 수행평가 안내', teacher: '배준', grade: '2학년', subject: '수학', due: '2025-10-18' },
-      { title: '2025년 2학년 과학 - 지구과학Ⅰ 과학탐구보고서(수행평가)', teacher: '김기권', grade: '2학년', subject: '과학', due: '2025-10-20' },
-      { title: '2025년 2학년 영어 - Speaking 수행평가 공지', teacher: '오가영', grade: '2학년', subject: '영어', due: '2025-10-22' },
+
+    
+    // ─────────────────────────────────────────
+    // 0) 로드: suhang.json(동일 폴더) → 폴백 샘플
+    // ─────────────────────────────────────────
+    const FALLBACK_SAMPLES = [
+      { title: '2025년 2학년 과학 - 물리학 추가탐구 보고서 제출', teacher: '유혜원',           grade: '2학년', subject: '과학', due: '2025-10-10' },
+      { title: '2025년 2학년 과학 - [화학Ⅰ] 화학탐구보고서 제출',       teacher: '황윤서, 장다정', grade: '2학년', subject: '과학', due: '2025-10-12' },
+      { title: '2025년 2학년 수학 - 기하 2학기 발표 수행평가 안내',       teacher: '배준',             grade: '2학년', subject: '수학', due: '2025-10-18' },
+      { title: '2025년 2학년 과학 - 지구과학Ⅰ 과학탐구보고서(수행평가)', teacher: '김기권',           grade: '2학년', subject: '과학', due: '2025-10-20' },
+      { title: '2025년 2학년 영어 - Speaking 수행평가 공지',            teacher: '오가영',           grade: '2학년', subject: '영어', due: '2025-10-22' },
       { title: '2025년 2학년 수학 - 확률과통계 심화탐구 보고서(기한 내 미제출자)', teacher: '강수미', grade: '2학년', subject: '수학', due: '2025-10-25' },
-      { title: '2025년 2학기 물리학 수행평가(탐구 보고서)', teacher: '유혜원', grade: '2학년', subject: '과학', due: '2025-11-01' },
-      { title: '2025년 2학기 수학Ⅰ 서논술형 수행평가 문제 예시 문항 안내', teacher: '배준', grade: '2학년', subject: '수학', due: '2025-11-03' },
-      { title: '2025년 2학년 과학 - 2학년 생명과학Ⅰ 탐구보고서 완성 제출', teacher: '박현묘', grade: '2학년', subject: '과학', due: '2025-11-07' },
-      { title: '2025년 2학년 국어 - [2-7] 2학기 문학 수행평가(활동지)', teacher: '유정화, 강민철', grade: '2학년', subject: '국어', due: '2025-11-10' },
-      { title: '2025년 2학년 영어 - 2학년 영어 과세특 기초자료 제출', teacher: '오가영', grade: '2학년', subject: '영어', due: '2025-11-05' },
-      { title: '2025년 2학년 기타 - 문제 변화의 모빌(2-7)', teacher: '김혜수', grade: '2학년', subject: '기타', due: '2025-11-15' },
-      { title: '2025년 2학년 기타 - 문제분석(2-7)', teacher: '김혜수', grade: '2학년', subject: '기타', due: '2025-11-18' },
+      { title: '2025년 2학기 물리학 수행평가(탐구 보고서)',              teacher: '유혜원',           grade: '2학년', subject: '과학', due: '2025-11-01' },
+      { title: '2025년 2학기 수학Ⅰ 서논술형 수행평가 문제 예시 문항 안내', teacher: '배준',           grade: '2학년', subject: '수학', due: '2025-11-03' },
+      { title: '2025년 2학년 과학 - 2학년 생명과학Ⅰ 탐구보고서 완성 제출', teacher: '박현묘',         grade: '2학년', subject: '과학', due: '2025-11-07' },
+      { title: '2025년 2학년 국어 - [2-7] 2학기 문학 수행평가(활동지)',   teacher: '유정화, 강민철',   grade: '2학년', subject: '국어', due: '2025-11-10' },
+      { title: '2025년 2학년 영어 - 2학년 영어 과세특 기초자료 제출',    teacher: '오가영',           grade: '2학년', subject: '영어', due: '2025-11-05' },
+      { title: '2025년 2학년 기타 - 문제 변화의 모빌(2-7)',              teacher: '김혜수',           grade: '2학년', subject: '기타', due: '2025-11-15' },
+      { title: '2025년 2학년 기타 - 문제분석(2-7)',                      teacher: '김혜수',           grade: '2학년', subject: '기타', due: '2025-11-18' },
       { title: '2025년 2학년 국어 - 2학기 수행평가 참고 소설 파일1(다섯 편 모음)', teacher: '유정화', grade: '2학년', subject: '국어', due: '2025-10-05' },
-      { title: '2025년 2학년 수학 - 수학Ⅱ 심화탐구 보고서(7반)', teacher: '정주희', grade: '2학년', subject: '수학', due: '2025-11-20' },
-      { title: '2025년 2학년 수학 - 수업유연화 - 나는 왜 수학을 못하는가', teacher: '정주희', grade: '2학년', subject: '수학', due: '2025-06-10' },
+      { title: '2025년 2학년 수학 - 수학Ⅱ 심화탐구 보고서(7반)',         teacher: '정주희',           grade: '2학년', subject: '수학', due: '2025-11-20' },
+      { title: '2025년 2학년 수학 - 수업유연화 - 나는 왜 수학을 못하는가',  teacher: '정주희',         grade: '2학년', subject: '수학', due: '2025-06-10' },
       { title: '2025년 2학년 과학 - 2학년 지구과학Ⅰ 과학독서보고서(세특추가탐구)', teacher: '김기권', grade: '2학년', subject: '과학', due: '2025-06-15' },
 
-      // 전학년 or 기타/과학(유연화/동아리 등) — due null: D-Day·알림 제외
+      // 전학년/기타 — due: null (알림/임박 제외)
       { title: '2025년 전학년 기타 - 2학기 건강중진교육봉사 포스터, 활동일지 제출', teacher: '지민희', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 기타 - 2025-2 보건 수업 심화 탐구', teacher: '지민희', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 기타 - 건강증진 교육봉사 활동일지 제출', teacher: '지민희', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 기타 - 통번역 동아리 산출물 제출', teacher: '황창수', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 기타 - [수업활용 유연화](Web Hacking) 실습 보고서 제출', teacher: '윤시내', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 과학 - 생체신호와 디지털헬스 3,4일차 보고서 제출', teacher: '지민희', grade: '전학년', subject: '과학', due: null },
-      { title: '2025년 전학년 과학 - [수업활용 유연화] 나만의 주기율표 만들기', teacher: '황윤서', grade: '전학년', subject: '과학', due: null },
-      { title: '2025년 전학년 기타 - 해킹반 1학기 동아리 활동 보고서', teacher: '윤시내', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 기타 - 2025-2 보건 수업 심화 탐구',                        teacher: '지민희', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 기타 - 건강증진 교육봉사 활동일지 제출',                    teacher: '지민희', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 기타 - 통번역 동아리 산출물 제출',                            teacher: '황창수', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 기타 - [수업활용 유연화](Web Hacking) 실습 보고서 제출',     teacher: '윤시내', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 과학 - 생체신호와 디지털헬스 3,4일차 보고서 제출',           teacher: '지민희', grade: '전학년', subject: '과학', due: null },
+      { title: '2025년 전학년 과학 - [수업활용 유연화] 나만의 주기율표 만들기',             teacher: '황윤서', grade: '전학년', subject: '과학', due: null },
+      { title: '2025년 전학년 기타 - 해킹반 1학기 동아리 활동 보고서',                      teacher: '윤시내', grade: '전학년', subject: '기타', due: null },
       { title: '2025년 전학년 기타 - [수업활용 유연화](Web Hacking) 자율적 교육과정 탐구 보고서 제출', teacher: '윤시내', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 기타 - 창의로봇반 활동일지', teacher: '황민기', grade: '전학년', subject: '기타', due: null },
-      { title: '2025년 전학년 기타 - 공간 심화 탐구 주제 보고서 제출', teacher: '황승근', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 기타 - 창의로봇반 활동일지',                                    teacher: '황민기', grade: '전학년', subject: '기타', due: null },
+      { title: '2025년 전학년 기타 - 공간 심화 탐구 주제 보고서 제출',                        teacher: '황승근', grade: '전학년', subject: '기타', due: null },
       { title: '2025년 전학년 과학 - [수업활용유연화] 포인팅 벡터, 공간을 지나는 에너지 흐름', teacher: '황민기', grade: '전학년', subject: '과학', due: null },
       { title: '2025년 전학년 과학 - 기후 변화에 대한 과학적 해결 방법 연구(수업유연화·자율적 교육과정)', teacher: '김기권', grade: '전학년', subject: '과학', due: null },
     ];
 
-    // ============ 상태 ============
+    let SUHANG = []; // 최종 데이터
+
+     (function setupBack(){
+    const FALLBACK_HOME = "lite_hackathon.html"; // 필요하면 경로 수정
+
+    const backBtn = document.getElementById("backBtn");
+    backBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const hasHistory = window.history.length > 1;
+      const ref = document.referrer;
+      let sameOrigin = false;
+
+      try {
+        sameOrigin = ref && new URL(ref).origin === location.origin;
+      } catch {}
+
+      // 뒤로가기 가능한 안전한 조건
+      if (hasHistory && sameOrigin) {
+        history.back();
+
+        // 일부 브라우저에서 back()이 무시될 때 폴백
+        setTimeout(() => {
+          if (document.visibilityState === "visible") {
+            location.href = FALLBACK_HOME;
+          }
+        }, 500);
+      } else {
+        // 히스토리 없음 → 홈으로 바로 이동
+        location.href = FALLBACK_HOME;
+      }
+    });
+  })();
+
+    // ─────────────────────────────────────────
+    // 1) 상태
+    // ─────────────────────────────────────────
     let favorites = JSON.parse(localStorage.getItem('suhangFavorites') || '[]');
     let showFavOnly = false;
     let sortByDue = false;
+    let nearOnly = false; // 임박(≤3일)만
 
-    const $tbody = document.getElementById('tbody');
-    const $search = document.getElementById('searchInput');
-    const $grade = document.getElementById('gradeFilter');
+    const $tbody   = document.getElementById('tbody');
+    const $search  = document.getElementById('searchInput');
+    const $grade   = document.getElementById('gradeFilter');
     const $subject = document.getElementById('subjectFilter');
     const $sortBtn = document.getElementById('sortBtn');
-    const $favBtn = document.getElementById('favBtn');
+    const $favBtn  = document.getElementById('favBtn');
+    const $nearBtn = document.getElementById('nearBtn');
 
-    // ============ 유틸 ============
+    // ─────────────────────────────────────────
+    // 2) 유틸
+    // ─────────────────────────────────────────
+    function normalizeStr(s) {
+      return (s || "").toString().trim().toLowerCase();
+    }
     function calcDDay(due) {
-      if (!due) return { label: '-', cls: 'dday none' };
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const d = new Date(due);
-      d.setHours(0,0,0,0);
+      if (!due) return { label: '-', cls: 'dday none', days: Infinity };
+      const today = new Date(); today.setHours(0,0,0,0);
+      const d = new Date(due); d.setHours(0,0,0,0);
       const diff = Math.floor((d - today) / (1000*60*60*24));
-      if (diff < 0) return { label: '마감', cls: 'dday expired' };
-      if (diff === 0) return { label: 'D-Day', cls: 'dday today' };
-      return { label: `D-${diff}`, cls: 'dday' };
+      if (diff < 0)  return { label: '마감', cls: 'dday expired', days: diff };
+      if (diff === 0) return { label: 'D-Day', cls: 'dday today', days: 0 };
+      return { label: `D-${diff}`, cls: 'dday', days: diff };
     }
-
     function shouldAlert(entry) {
-      if (!entry.due) return false;
+      if (!entry?.due) return false;
       if (entry.grade === '전학년' && entry.subject === '기타') return false;
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const d = new Date(entry.due);
-      d.setHours(0,0,0,0);
-      const diff = Math.floor((d - today) / (1000*60*60*24));
-      return diff === 1;
+      const d = calcDDay(entry.due);
+      return d.days === 1; // D-1
+    }
+    function slugifyTitle(t) {
+      return encodeURIComponent((t || '').toString().trim().toLowerCase());
     }
 
-    // ============ 렌더 ============
-    function render() {
+    // ─────────────────────────────────────────
+    // 3) 렌더
+    // ─────────────────────────────────────────
+    function render(focus) {
       let list = [...SUHANG];
 
-      const kw = $search.value.trim().toLowerCase();
+      // 검색어 (제목/교사/학년/과목)
+      const kw = normalizeStr($search.value);
       if (kw) {
-        list = list.filter(x =>
-          x.title.toLowerCase().includes(kw) ||
-          x.teacher.toLowerCase().includes(kw)
-        );
+        list = list.filter(x => {
+          const blob = [x.title, x.teacher, x.grade, x.subject].map(normalizeStr).join(' ');
+          return blob.includes(kw);
+        });
+      }
+      // 학년/과목 필터
+      if ($grade.value)   list = list.filter(x => x.grade   === $grade.value);
+      if ($subject.value) list = list.filter(x => x.subject === $subject.value);
+
+      // 즐겨찾기만
+      if (showFavOnly) list = list.filter(x => favorites.includes(x.title));
+
+      // 임박만(≤3일) — due 없는 전학년 기타 제외
+      if (nearOnly) {
+        list = list.filter(x => {
+          if (!x.due) return false;
+          if (x.grade === '전학년' && x.subject === '기타') return false;
+          return calcDDay(x.due).days >= 0 && calcDDay(x.due).days <= 3;
+        });
       }
 
-      if ($grade.value) {
-        list = list.filter(x => x.grade === $grade.value);
-      }
-
-      if ($subject.value) {
-        list = list.filter(x => x.subject === $subject.value);
-      }
-
-      if (showFavOnly) {
-        list = list.filter(x => favorites.includes(x.title));
-      }
-
+      // 정렬: 마감일 오름차순 (null은 뒤로)
       if (sortByDue) {
         list.sort((a, b) => {
           if (!a.due && !b.due) return 0;
@@ -319,24 +386,65 @@
       $tbody.innerHTML = list.map(x => {
         const dday = calcDDay(x.due);
         const favActive = favorites.includes(x.title);
+        const rowId = "row-" + slugifyTitle(x.title);
         return `
-          <tr>
+          <tr id="${rowId}">
             <td>${x.title}<span class="badge">${x.subject}</span></td>
             <td>${x.teacher}</td>
             <td><span class="grade">${x.grade}</span></td>
             <td>${x.due || '-'}</td>
             <td><span class="${dday.cls}">${dday.label}</span></td>
             <td>
-              <button class="favorite-btn ${favActive ? 'active' : ''}" onclick="toggleFavorite('${x.title.replace(/'/g, "\\'")}')">
-                ★
-              </button>
+              <button class="favorite-btn ${favActive ? 'active' : ''}" onclick="toggleFavorite('${x.title.replace(/'/g, "\\'")}')">★</button>
             </td>
           </tr>
         `;
       }).join('');
+
+      if (focus) {
+        requestAnimationFrame(() => focusRow(focus));
+      }
     }
 
-    // ============ 즐겨찾기 ============
+    // ─────────────────────────────────────────
+    // 4) 하이라이트 / 포커스
+    // ─────────────────────────────────────────
+    function focusRowByTitle(titleExact) {
+      if (!titleExact) return false;
+      const rowId = "row-" + slugifyTitle(titleExact);
+      return focusRow(rowId);
+    }
+    function focusRowByQuery(q) {
+      const kw = normalizeStr(q);
+      if (!kw) return false;
+      // 목록에서 첫 매치 찾기
+      const hit = SUHANG.find(x => {
+        const blob = [x.title, x.teacher, x.grade, x.subject].map(normalizeStr).join(' ');
+        return blob.includes(kw);
+      });
+      if (!hit) return false;
+      const rowId = "row-" + slugifyTitle(hit.title);
+      return focusRow(rowId);
+    }
+    function focusRow(rowIdOrElementId) {
+      const el = document.getElementById(rowIdOrElementId) ||
+                 document.querySelector(`[id="${CSS.escape(rowIdOrElementId)}"]`);
+      if (!el) return false;
+      el.classList.remove('focus-hit');
+      // 강제로 리플로우 후 애니메이션 재적용
+      void el.offsetWidth;
+      el.classList.add('focus-hit');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return true;
+    }
+
+    // 전역 노출 (AI/다른 탭에서 호출용)
+    window.focusSuhangByTitle = (t) => { render(); setTimeout(() => focusRowByTitle(t), 50); };
+    window.focusSuhangByQuery = (q)   => { render(); setTimeout(() => focusRowByQuery(q), 50); };
+
+    // ─────────────────────────────────────────
+    // 5) 즐겨찾기/토글/알림
+    // ─────────────────────────────────────────
     function toggleFavorite(title) {
       const idx = favorites.indexOf(title);
       if (idx >= 0) favorites.splice(idx, 1);
@@ -346,24 +454,7 @@
     }
     window.toggleFavorite = toggleFavorite;
 
-    // ============ 이벤트 ============
-    $search.addEventListener('input', render);
-    $grade.addEventListener('change', render);
-    $subject.addEventListener('change', render);
-
-    $sortBtn.addEventListener('click', () => {
-      sortByDue = !sortByDue;
-      $sortBtn.textContent = sortByDue ? '📅 마감일순(ON)' : '📅 마감일순';
-      render();
-    });
-
-    $favBtn.addEventListener('click', () => {
-      showFavOnly = !showFavOnly;
-      $favBtn.textContent = showFavOnly ? '⭐ 즐겨찾기만(ON)' : '⭐ 즐겨찾기만';
-      render();
-    });
-
-    // ============ D-1 알림 ============
+    // D-1 알림 (세션 당 1회)
     function checkAlertsOnce() {
       const alerted = sessionStorage.getItem('suhangAlerted');
       if (alerted) return;
@@ -374,9 +465,94 @@
       sessionStorage.setItem('suhangAlerted', '1');
     }
 
-    // 초기 실행
-    render();
-    checkAlertsOnce();
+    // ─────────────────────────────────────────
+    // 6) 이벤트
+    // ─────────────────────────────────────────
+    function bindEvents() {
+      $search.addEventListener('input', () => render());
+      $grade.addEventListener('change', () => render());
+      $subject.addEventListener('change', () => render());
+
+      $sortBtn.addEventListener('click', () => {
+        sortByDue = !sortByDue;
+        $sortBtn.classList.toggle('toggle-on', sortByDue);
+        $sortBtn.textContent = sortByDue ? '📅 마감일순(ON)' : '📅 마감일순';
+        render();
+      });
+
+      $favBtn.addEventListener('click', () => {
+        showFavOnly = !showFavOnly;
+        $favBtn.classList.toggle('toggle-on', showFavOnly);
+        $favBtn.textContent = showFavOnly ? '⭐ 즐겨찾기만(ON)' : '⭐ 즐겨찾기만';
+        render();
+      });
+
+      $nearBtn.addEventListener('click', () => {
+        nearOnly = !nearOnly;
+        $nearBtn.classList.toggle('toggle-on', nearOnly);
+        $nearBtn.textContent = nearOnly ? '⏰ 임박만(ON)' : '⏰ 임박만';
+        render();
+      });
+    }
+
+    // ─────────────────────────────────────────
+    // 7) 포커스 파라미터/세션 처리
+    // ─────────────────────────────────────────
+    function handleFocusIntent() {
+      const params = new URLSearchParams(location.search);
+      const pTitle = params.get('title'); // 정확 제목
+      const pFocus = params.get('focus'); // 포함 검색
+
+      const fromSession = sessionStorage.getItem('suhangFocus');
+      let sessionObj = null;
+      if (fromSession) {
+        try { sessionObj = JSON.parse(fromSession); } catch(e) {}
+        sessionStorage.removeItem('suhangFocus');
+      }
+
+      if (pTitle) {
+        setTimeout(() => focusRowByTitle(pTitle), 60);
+      } else if (pFocus) {
+        setTimeout(() => focusRowByQuery(pFocus), 60);
+      } else if (sessionObj?.title) {
+        setTimeout(() => focusRowByTitle(sessionObj.title), 60);
+      } else if (sessionObj?.query) {
+        setTimeout(() => focusRowByQuery(sessionObj.query), 60);
+      }
+    }
+
+    // ─────────────────────────────────────────
+    // 8) 초기화: 데이터 로드 → 렌더/이벤트/알림/포커스
+    // ─────────────────────────────────────────
+    async function loadData() {
+      try {
+        const res = await fetch('suhang.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('no json');
+        const arr = await res.json();
+        if (Array.isArray(arr) && arr.length) {
+          SUHANG = arr.map(x => ({
+            title:   x.title   ?? '',
+            teacher: x.teacher ?? '',
+            grade:   x.grade   ?? '',
+            subject: x.subject ?? '',
+            due:     x.due     ?? null,
+          }));
+          return;
+        }
+        throw new Error('empty');
+      } catch (e) {
+        // 폴백
+        SUHANG = FALLBACK_SAMPLES;
+      }
+    }
+
+    (async function init() {
+      await loadData();
+      bindEvents();
+      render();
+      checkAlertsOnce();
+      handleFocusIntent();
+    })();
   </script>
 </body>
 </html>

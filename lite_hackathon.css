@@ -310,3 +310,119 @@ header,
 .theme-toggle {
   transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.3s ease;
 }
+
+/* =============================== */
+/* 🌞 라이트 모드 대비 강화 (추가 부분) */
+/* =============================== */
+
+/* 헤더 구분선 진하게 */
+body.light-mode .header {
+  border-bottom: 1.5px solid #000; /* 진한 검정 라인 */
+}
+
+/* 햄버거 메뉴 (≡) */
+body.light-mode #openSidebar svg path {
+  stroke: #000 !important; /* 검정색으로 */
+}
+
+/* 로그인 버튼 (오른쪽 아이콘) */
+body.light-mode #loginBtn svg path {
+  stroke: #000 !important;
+}
+
+/* 위젯 테두리 */
+body.light-mode .widget {
+  border: 1.5px solid #000; /* 진한 테두리 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* 더 뚜렷한 그림자 */
+}
+
+/* 검색창 */
+body.light-mode .search {
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 검색창 돋보기 아이콘 */
+body.light-mode .search-icon svg path,
+body.light-mode .search-icon svg circle {
+  stroke: #000;
+}
+
+/* L.I.T.E 로고 */
+body.light-mode .logo {
+  color: #000 !important;
+}
+
+/* 사이드바 테두리 */
+body.light-mode .sidebar {
+  border-right: 1.5px solid #000;
+}
+
+/* 사이드바 메뉴 hover 시 더 진하게 */
+body.light-mode .menu-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-left-color: #000;
+}
+
+/* 플러스 버튼 (FAB) 주변 대비 향상) */
+body.light-mode .fab {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* =============================== */
+/* 🌞 라이트 모드: 위젯 추가 모달 반전 */
+/* =============================== */
+
+body.light-mode .modal-card {
+  background: #ffffff; /* 밝은 배경 */
+  color: #111; /* 어두운 텍스트 */
+  border: 1.5px solid #ccc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 모달 헤더, 푸터 경계선 */
+body.light-mode .modal-header,
+body.light-mode .modal-footer {
+  border-color: #ccc;
+}
+
+/* 닫기(X) 버튼 색상 변경 */
+body.light-mode #closeModal svg path {
+  stroke: #000; /* 검정색 아이콘 */
+}
+
+/* 위젯 버튼들 */
+body.light-mode .picker-item {
+  border: 1.5px dashed #444;
+  color: #111;
+  background: #f9f9f9;
+}
+body.light-mode .picker-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* 안내 문구 */
+body.light-mode .modal-footer small {
+  color: #333;
+}
+
+/* =============================== */
+/* 📍 닫기(X) 버튼 위치 오른쪽 정렬 */
+/* =============================== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#closeModal {
+  margin-left: auto; /* 오른쪽 끝으로 이동 */
+}
+
+#todayLunch li:first-child {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6px;
+}
+

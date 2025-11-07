@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>학교일정 | L.I.T.E</title>
+  <link rel="stylesheet" href="haksa.css" />
+  <script src="haksa.js" defer></script>
+</head>
+<body>
+  <!-- 뒤로가기 버튼 -->
+  <button class="back-btn" onclick="goBack()">← 메인으로</button>
+
+  <header>
+    <h1>L.I.T.E</h1>
+    <p>경희고등학교 학사일정</p>
+  </header>
+
+  <main>
+    <div id="calendar">
+      <div class="calendar-header">
+        <button id="prevMonth">◀</button>
+        <h2 id="monthTitle">2025년 11월</h2>
+        <button id="nextMonth">▶</button>
+      </div>
+
+      <div class="calendar-grid" id="calendarGrid"></div>
+
+      <div class="schedule-container">
+        <h3>📅 월간 일정</h3>
+        <div class="schedule-list"></div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

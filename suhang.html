@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>L.I.T.E | 수행평가(예시 데이터)</title>
+    <title>L.I.T.E | 수행평가</title>
     <style>
       :root {
         color-scheme: light dark;
@@ -15,6 +15,8 @@
         background: #0b132b;
         color: #fff;
       }
+
+      /* 상단 헤더 */
       header {
         position: sticky;
         top: 0;
@@ -26,305 +28,505 @@
         padding: 0.9rem 1rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
-      header .title {
+
+      .btn-back {
+        padding: 0.5rem 0.9rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.25s;
+      }
+      .btn-back:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .title {
         font-weight: 700;
         letter-spacing: 0.3px;
+        font-size: 1.1rem;
       }
+
       main {
         max-width: 960px;
         margin: 1.2rem auto;
         padding: 0 1rem 2rem;
       }
-      .toolbar {
-        display: flex;
-        gap: 0.6rem;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 0.9rem;
-      }
-      .toolbar input[type='search'] {
-        flex: 1 1 320px;
-        padding: 0.7rem 0.9rem;
-        border-radius: 10px;
-        border: 0;
+
+      /* 과목 버튼 */
+      .subject-btn {
+        border: 1px solid rgba(255, 255, 255, 0.25);
         background: rgba(255, 255, 255, 0.08);
+        padding: 1rem 1.2rem;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
         color: #fff;
-        outline: none;
+        margin: 0.3rem;
+        width: calc(33% - 0.6rem);
+        box-sizing: border-box;
+        text-align: center;
+        transition: 0.25s;
       }
-      .counter {
-        opacity: 0.8;
-        font-size: 0.95rem;
+      .subject-btn:hover,
+      .subject-btn.active {
+        background: #4cc9f0;
+        color: #000;
+        font-weight: 600;
+        transform: scale(1.05);
       }
+
+      /* 섹션 및 테이블 */
+      .subject-section {
+        margin-top: 2rem;
+      }
+      .subject-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+        border-left: 5px solid #4cc9f0;
+        padding-left: 0.6rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      }
+      thead th {
+        background: rgba(255, 255, 255, 0.08);
+        font-weight: 700;
+        text-align: left;
+        padding: 0.8rem 1rem;
+      }
+      tbody td {
+        padding: 0.8rem 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .deadline {
+        opacity: 0.85;
+        font-size: 0.9rem;
+      }
+      .deadline.past {
+        color: #ff6b6b;
+        font-weight: 600;
+      }
+
       .card {
         background: rgba(255, 255, 255, 0.06);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 14px;
         overflow: hidden;
       }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      thead th {
-        text-align: left;
-        padding: 0.85rem 1rem;
-        font-weight: 700;
-        font-size: 0.95rem;
-        background: rgba(255, 255, 255, 0.08);
-      }
-      tbody td {
-        padding: 0.8rem 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        vertical-align: top;
-      }
-      .empty {
-        padding: 1rem;
-        text-align: center;
-        opacity: 0.8;
-      }
-      .badge {
-        display: inline-block;
-        padding: 0.2rem 0.5rem;
-        border-radius: 999px;
-        font-size: 0.8rem;
-        background: rgba(76, 201, 240, 0.15);
-        color: #4cc9f0;
-        border: 1px solid rgba(76, 201, 240, 0.35);
-      }
-      .actions {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-      }
-      .btn {
-        padding: 0.45rem 0.7rem;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.06);
-        color: #fff;
-        cursor: pointer;
-      }
-      .btn:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
     </style>
   </head>
+
   <body>
+    <!-- 상단 헤더 -->
     <header>
-      <button class="btn" onclick="history.back()" aria-label="뒤로가기">
-        ← 뒤로
+      <!-- ✅ 홈으로 돌아가기 버튼 -->
+      <button
+        class="btn-back"
+        onclick="window.location.href='http://127.0.0.1:5500/lite_hackathon.html'"
+      >
+        ← 홈으로
       </button>
-      <div class="title">📝 수행평가 (예시 데이터)</div>
-      <div style="flex: 1"></div>
-      <span class="badge" title="데모 데이터">DEMO</span>
+
+      <div class="title">📝 수행평가</div>
     </header>
 
+    <!-- 메인 콘텐츠 -->
     <main>
-      <div class="toolbar">
-        <input
-          id="q"
-          type="search"
-          placeholder="제목·담당 교사 검색…"
-          autofocus
-        />
-        <div class="counter" id="counter"></div>
-        <div class="actions">
-          <button class="btn" id="resetBtn">초기화</button>
-        </div>
-      </div>
-
-      <section class="card">
-        <table aria-label="수행평가 예시 데이터">
-          <thead>
-            <tr>
-              <th style="width: 72%">수행평가 제목</th>
-              <th style="width: 28%">담당 교사</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-            <tr>
-              <td class="empty" colspan="2">불러오는 중…</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <div id="subjectButtons"></div>
+      <div id="viewContainer"></div>
     </main>
 
+    <!-- 수행평가 스크립트 -->
     <script>
-      // 1) 예시 데이터 (그대로 복사해 반영)
       const SUHANG_SAMPLES = [
+        // 기존 데이터 30개
         {
           title: '2025년 2학년 과학 - 물리학 추가탐구 보고서 제출',
           teacher: '유혜원',
+          deadline: '12-21 23:00',
         },
         {
           title: '2025년 2학년 과학 - [화학Ⅰ] 화학탐구보고서 제출',
           teacher: '황윤서, 장다정',
+          deadline: '11-16 23:55',
         },
         {
           title: '2025년 2학년 수학 - 기하 2학기 발표 수행평가 안내',
           teacher: '배준',
+          deadline: '11-24 00:00',
         },
         {
           title: '2025년 2학년 과학 - 지구과학Ⅰ 과학탐구보고서(수행평가)',
           teacher: '김기권',
+          deadline: '11-23 23:00',
         },
         {
           title: '2025년 2학년 영어 - speaking 수행평가 공지',
           teacher: '오가영',
+          deadline: '10-31 16:05',
         },
         {
           title:
             '2025년 2학년 수학 - 확률과통계 심화탐구 보고서(기한 내 미제출자)',
           teacher: '강수미',
+          deadline: '10-17 23:55',
         },
         {
           title: '2025년 2학기 물리학 수행평가(탐구 보고서)',
           teacher: '유혜원',
+          deadline: '11-07 16:00',
         },
         {
           title: '2025년 2학기 수학Ⅰ 서논술형 수행평가 문제 예시 문항 안내',
           teacher: '배준',
+          deadline: '10-16 16:00',
         },
         {
           title:
             '2025년 전학년 기타 - 2학기 건강중진교육봉사 포스터, 활동일지 제출',
           teacher: '지민희',
+          deadline: '12-25 23:00',
         },
         {
           title: '2025년 2학년 과학 - 2학년 생명과학Ⅰ 탐구보고서 완성 제출',
           teacher: '박현묘',
+          deadline: '10-19 23:55',
         },
         {
           title: '2025년 2학년 국어 - [2-7]2학기 문학 수행평가(활동지)',
           teacher: '유정화, 강민철',
+          deadline: '10-15 15:45',
         },
         {
           title: '2025년 2학년 영어 - 2학년 영어 과세특 기초자료 제출',
           teacher: '오가영',
+          deadline: '11-04 23:55',
         },
         {
           title: '2025년 2학년 기타 - 문제 변화의 모빌(2-7)',
           teacher: '김혜수',
+          deadline: '09-18 00:00',
         },
-        { title: '2025년 2학년 기타 - 문제분석(2-7)', teacher: '김혜수' },
+        {
+          title: '2025년 2학년 기타 - 문제분석(2-7)',
+          teacher: '김혜수',
+          deadline: '09-17 10:00',
+        },
         {
           title:
             '2025년 2학년 국어 - 2학기 수행평가 참고 소설 파일1(다섯 편 모음)',
           teacher: '유정화',
+          deadline: '10-17 23:55',
         },
         {
           title: '2025년 2학년 수학 - 수학2 심화탐구 보고서(7반)',
           teacher: '정주희',
+          deadline: '09-08 07:00',
         },
         {
           title: '2025년 전학년 기타 - 2025-2 보건 수업 심화 탐구',
           teacher: '지민희',
+          deadline: '12-21 23:55',
         },
         {
           title: '2025년 전학년 기타 - 건강증진 교육봉사 활동일지 제출',
           teacher: '지민희',
+          deadline: '07-13 23:55',
         },
         {
           title: '2025년 전학년 기타 - 통번역 동아리 산출물 제출',
           teacher: '황창수',
+          deadline: '08-04 23:55',
         },
         {
           title:
             '2025년 전학년 기타 - [수업활용 유연화](Web Hacking) 실습 보고서 제출',
           teacher: '윤시내',
+          deadline: '07-14 23:55',
         },
         {
           title:
             '2025년 전학년 과학 - 생체신호와 디지털헬스 3, 4일차 보고서 제출',
           teacher: '지민희',
+          deadline: '07-08 23:00',
         },
         {
           title:
             '2025년 전학년 과학 - [수업활용 유연화] 나만의 주기율표 만들기',
           teacher: '황윤서',
+          deadline: '07-11 23:55',
         },
         {
           title: '2025년 전학년 기타 - 해킹반 1학기 동아리 활동 보고서',
           teacher: '윤시내',
+          deadline: '07-13 23:55',
         },
         {
           title:
             '2025년 전학년 기타 - [수업활용 유연화](Web Hacking) 자율적 교육과정 탐구 보고서 제출',
           teacher: '윤시내',
+          deadline: '07-14 23:55',
         },
         {
           title: '2025년 전학년 기타 - 창의로봇반 활동일지',
           teacher: '황민기',
+          deadline: '07-14 23:55',
         },
         {
           title: '2025년 전학년 기타 - 공간 심화 탐구 주제 보고서 제출',
           teacher: '황승근',
+          deadline: '08-14 16:00',
         },
         {
           title:
             '2025년 전학년 과학 - [수업활용유연화] 포인팅 벡터, 공간을 지나는 에너지 흐름',
           teacher: '황민기',
+          deadline: '07-14 23:55',
         },
         {
           title:
             '2025년 전학년 과학 - 기후 변화에 대한 과학적 해결 방법 연구(수업유연화·자율적 교육과정)',
           teacher: '김기권',
+          deadline: '07-08 23:00',
         },
         {
           title: '2025년 2학년 수학 - 수업유연화-나는 왜 수학을 못하는가',
           teacher: '정주희',
+          deadline: '07-09 10:00',
         },
         {
           title:
             '2025년 2학년 과학 - 2학년 지구과학Ⅰ - 과학독서보고서(세특추가탐구)',
           teacher: '김기권',
+          deadline: '07-08 23:00',
+        },
+
+        // 새로 추가되는 항목들 (중복 없는 나머지)
+        {
+          title: '2025년 전학년 기타 - 통번역 동아리 산출물 제출',
+          teacher: '황창수',
+          deadline: '08-04 23:55',
+        },
+        {
+          title: '2025년 전학년 기타 - 해킹반 1학기 동아리 활동 보고서',
+          teacher: '윤시내',
+          deadline: '07-13 23:55',
+        },
+        {
+          title: '2025년 전학년 기타 - 창의로봇반 활동일지',
+          teacher: '황민기',
+          deadline: '07-14 23:55',
+        },
+        {
+          title: '2025년 전학년 기타 - 공간 심화 탐구 주제 보고서 제출',
+          teacher: '황승근',
+          deadline: '08-14 16:00',
+        },
+        {
+          title:
+            '2025년 전학년 과학 - [수업활용유연화] 포인팅 벡터, 공간을 지나는 에너지 흐름',
+          teacher: '황민기',
+          deadline: '07-14 23:55',
+        },
+        {
+          title:
+            '2025년 전학년 과학 - 기후 변화에 대한 과학적 해결 방법 연구(수업유연화·자율적 교육과정)',
+          teacher: '김기권',
+          deadline: '07-08 23:00',
+        },
+        {
+          title: '2025년 전학년 기타 - 2025-2 보건 수업 심화 탐구',
+          teacher: '지민희',
+          deadline: '12-21 23:55',
+        },
+        {
+          title: '2025년 전학년 기타 - 건강증진 교육봉사 활동일지 제출',
+          teacher: '지민희',
+          deadline: '07-13 23:55',
+        },
+        {
+          title:
+            '2025년 전학년 기타 - [수업활용 유연화](Web Hacking) 실습 보고서 제출',
+          teacher: '윤시내',
+          deadline: '07-14 23:55',
+        },
+        {
+          title:
+            '2025년 전학년 과학 - 생체신호와 디지털헬스 3, 4일차 보고서 제출',
+          teacher: '지민희',
+          deadline: '07-08 23:00',
+        },
+        {
+          title:
+            '2025년 전학년 과학 - [수업활용 유연화] 나만의 주기율표 만들기',
+          teacher: '황윤서',
+          deadline: '07-11 23:55',
+        },
+        {
+          title:
+            '2025년 2학년 국어 - 2학기 수행평가 참고 소설 파일1(다섯 편 모음)',
+          teacher: '유정화',
+          deadline: '10-17 23:55',
+        },
+        {
+          title: '2025년 2학년 수학 - 수학2 심화탐구 보고서(7반)',
+          teacher: '정주희',
+          deadline: '09-08 07:00',
+        },
+        {
+          title:
+            '2025년 2학년 수학 - 확률과통계 심화탐구 보고서(기한 내 미제출자)',
+          teacher: '강수미',
+          deadline: '10-17 23:55',
         },
       ];
 
-      const $tbody = document.getElementById('tbody');
-      const $q = document.getElementById('q');
-      const $counter = document.getElementById('counter');
-      const $reset = document.getElementById('resetBtn');
+      const SUBJECT_ORDER = ['국어', '영어', '수학', '과학', '기타'];
+      const $subjectButtons = document.getElementById('subjectButtons');
+      const $viewContainer = document.getElementById('viewContainer');
 
-      function render(list) {
+      // 문자열 → Date 변환
+      function parseDeadline(str) {
+        const [month, day, time] = str.split(/[- ]/);
+        const [hour, minute] = time.split(':');
+        return new Date(
+          2025,
+          Number(month) - 1,
+          Number(day),
+          Number(hour),
+          Number(minute)
+        );
+      }
+
+      // 기한 정렬: 남은 → 가까운, 지난 → 오래된
+      function sortByDeadline(list) {
+        const now = new Date();
+        const future = [];
+        const past = [];
+        list.forEach((item) => {
+          const d = parseDeadline(item.deadline);
+          (d >= now ? future : past).push({ ...item, dateObj: d });
+        });
+        future.sort((a, b) => a.dateObj - b.dateObj);
+        past.sort((a, b) => a.dateObj - b.dateObj);
+        return [...future, ...past];
+      }
+
+      // 과목 인식
+      function getSubject(title) {
+        for (const s of SUBJECT_ORDER) {
+          if (s !== '기타' && title.includes(s)) return s;
+        }
+        return '기타';
+      }
+
+      // 과목별 그룹화
+      function groupBySubject(list) {
+        const groups = {};
+        list.forEach((item) => {
+          const subj = getSubject(item.title);
+          if (!groups[subj]) groups[subj] = [];
+          groups[subj].push(item);
+        });
+        return groups;
+      }
+
+      // 테이블 생성
+      function renderTable(list) {
+        const now = new Date();
+        return list
+          .map((x) => {
+            const isPast = parseDeadline(x.deadline) < now;
+            return `
+            <tr>
+              <td>${x.title}</td>
+              <td>${x.teacher}</td>
+              <td class="deadline ${isPast ? 'past' : ''}">${x.deadline}</td>
+            </tr>`;
+          })
+          .join('');
+      }
+
+      // 전체 보기
+      function renderTableView(list) {
+        const sorted = sortByDeadline(list);
+        $viewContainer.innerHTML = `
+          <section class="card subject-section">
+            <table>
+              <thead>
+                <tr><th>수행평가 제목</th><th>담당 교사</th><th>마감일</th></tr>
+              </thead>
+              <tbody>${renderTable(sorted)}</tbody>
+            </table>
+          </section>`;
+      }
+
+      // 과목별 보기
+      function renderSubjectView(subjectFilter) {
+        const grouped = groupBySubject(SUHANG_SAMPLES);
+        const list = grouped[subjectFilter]
+          ? sortByDeadline(grouped[subjectFilter])
+          : [];
         if (!list.length) {
-          $tbody.innerHTML = `<tr><td class="empty" colspan="2">검색 결과가 없습니다.</td></tr>`;
-          $counter.textContent = `0건`;
+          $viewContainer.innerHTML = `<p style="opacity:.8;text-align:center;">해당 과목의 수행평가가 없습니다.</p>`;
           return;
         }
-        $tbody.innerHTML = list
-          .map(
-            (item) => `
-        <tr>
-          <td>${item.title}</td>
-          <td>${item.teacher}</td>
-        </tr>
-      `
-          )
-          .join('');
-        $counter.textContent = `${list.length}건`;
+        $viewContainer.innerHTML = `
+          <section class="subject-section">
+            <div class="subject-title">${subjectFilter} (${list.length}건)</div>
+            <table>
+              <thead>
+                <tr><th>수행평가 제목</th><th>담당 교사</th><th>마감일</th></tr>
+              </thead>
+              <tbody>${renderTable(list)}</tbody>
+            </table>
+          </section>`;
       }
 
-      function filter() {
-        const kw = ($q.value || '').trim().toLowerCase();
-        if (!kw) return render(SUHANG_SAMPLES);
-        const out = SUHANG_SAMPLES.filter(
-          (x) =>
-            x.title.toLowerCase().includes(kw) ||
-            x.teacher.toLowerCase().includes(kw)
-        );
-        render(out);
+      // 버튼 렌더링
+      function renderSubjectButtons() {
+        $subjectButtons.innerHTML = `
+          ${['전체', ...SUBJECT_ORDER]
+            .map(
+              (subj) =>
+                `<button class="subject-btn" data-subject="${subj}">${subj}</button>`
+            )
+            .join('')}
+        `;
+        document.querySelectorAll('.subject-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            document
+              .querySelectorAll('.subject-btn')
+              .forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            const subj = btn.dataset.subject;
+            if (subj === '전체') renderTableView(SUHANG_SAMPLES);
+            else renderSubjectView(subj);
+          });
+        });
       }
 
-      $q.addEventListener('input', filter);
-      $reset.addEventListener('click', () => {
-        $q.value = '';
-        filter();
-      });
+      // 초기화
+      function init() {
+        renderSubjectButtons();
+        document
+          .querySelector('.subject-btn[data-subject="전체"]')
+          .classList.add('active');
+        renderTableView(SUHANG_SAMPLES);
+      }
 
-      // 초기 렌더
-      render(SUHANG_SAMPLES);
+      init();
     </script>
   </body>
 </html>

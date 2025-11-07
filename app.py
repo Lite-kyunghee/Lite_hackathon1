@@ -1,74 +1,82 @@
-# app.py
-return jsonify({'msg': 'Assignment created', 'id': assignment.id}), 201
+from flask import Flask, send_from_directory, render_template_string, request, jsonify
+from flask_socketio import SocketIO, emit
+import smtplib
+from email.mime.text import MIMEText
 
+app = Flask(__name__)
+socketio = SocketIO(app)
 
-# ------------------------------
-# 제출: 학생이 과제 제출
-# ------------------------------
-@app.route('/api/assignments/<int:assignment_id>/submit', methods=['POST'])
-@jwt_required()
-def submit_assignment(assignment_id):
-    identity = get_jwt_identity()
-    # 학생만 제출 가능(예제)
-    if identity['role'] != 'student':
-        return jsonify({'msg': 'Only students can submit'}), 403
+# =============================
+# 📧 Gmail 전송 함수
+# =============================
+def send_email(to_address, content):
+    sender_email = "your_email@gmail.com"         # ⚠️ 네 Gmail 주소
+    sender_password = "your_app_password"         # ⚠️ 앱 비밀번호 (16자리)
 
+    msg = MIMEText(content, _charset="utf-8")
+    msg["Subject"] = "L.I.T.E 대화 내용 전송"
+    msg["From"] = sender_email
+    msg["To"] = to_address
 
-if 'file' not in request.files:
-    return jsonify({'msg': 'No file provided'}), 400
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(sender_email, sender_password)
+            smtp.send_message(msg)
+        print(f"📤 {to_address} 로 이메일 전송 완료")
+        return True
+    except Exception as e:
+        print("⚠️ 이메일 전송 실패:", e)
+        return False
 
+# =============================
+# 📄 HTML 렌더링
+# =============================
+@app.route("/")
+def home():
+    with open("lite_hackathon.html", encoding="utf-8") as f:
+        html = f.read()
+    return render_template_string(html)
 
-f = request.files['file']
-filename = f"{int(datetime.utcnow().timestamp())}_{f.filename}"
-save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-f.save(save_path)
+# =============================
+# 📁 정적 파일 서빙
+# =============================
+@app.route("/<path:filename>")
+def serve_static(filename):
+    return send_from_directory(".", filename)
 
+# =============================
+# 📩 Gmail 전송 API (JS fetch용)
+# =============================
+@app.route("/send_gmail", methods=["POST"])
+def send_gmail():
+    try:
+        data = request.get_json(force=True)
+        email = data.get("email")
+        content = data.get("content")
 
-submission = Submission(
-assignment_id=assignment_id,
-student_id=identity['id'],
-file_path=filename,
-submitted_at=datetime.utcnow()
-)
-db.session.add(submission)
-db.session.commit()
+        if not email or not content:
+            return jsonify({"status": "error", "message": "이메일 주소 또는 내용이 없습니다."})
 
+        ok = send_email(email, content)
+        if ok:
+            return jsonify({"status": "ok"})
+        else:
+            return jsonify({"status": "error", "message": "메일 전송 실패"})
 
-return jsonify({'msg': 'Submitted', 'submission_id': submission.id}), 201
+    except Exception as e:
+        print("❌ /send_gmail 처리 중 오류:", e)
+        return jsonify({"status": "error", "message": str(e)})
 
+# =============================
+# 💬 실시간 채팅 (Socket.IO)
+# =============================
+chat_log = []
 
-# ------------------------------
-# 업로드된 파일 제공 (개발용)
-# ------------------------------
-@app.route('/uploads/<path:filename>')
-def uploaded_file(filename):
-# 로컬 업로드 폴더에서 파일을 전달. 운영시 접근 제어 추가 필요
-return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@socketio.on("message")
+def handle_message(msg):
+    print("Message:", msg)
+    chat_log.append(msg)
+    emit("message", msg, broadcast=True)
 
-
-# ------------------------------
-# 간단한 과제 조회(예제)
-# ------------------------------
-@app.route('/api/classes/<int:class_id>/assignments', methods=['GET'])
-@jwt_required()
-def list_assignments(class_id):
-assignments = Assignment.query.filter_by(class_id=class_id).all()
-# JSON으로 직렬화하여 반환 (간단 필드만 포함)
-data = []
-for a in assignments:
-data.append({
-'id': a.id,
-'title': a.title,
-'description': a.description,
-'due_date': a.due_date.isoformat() if a.due_date else None,
-'attachment_url': f"/uploads/{a.attachment}" if a.attachment else None
-})
-return jsonify(data)
-
-
-# ------------------------------
-# 실행부
-# ------------------------------
-if __name__ == '__main__':
-# 개발용 실행 (디버그 모드)
-app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    socketio.run(app, debug=True)

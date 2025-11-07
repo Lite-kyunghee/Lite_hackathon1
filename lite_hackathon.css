@@ -169,3 +169,12 @@ body{
   .widget{ width:92% }
   .fab{ margin:10px auto }
 }
+.widget-hint {
+  font-size: 14px;
+  color: #fff; /* 👈 명확하게 밝은 회색 계열로 지정 */
+  margin-left: 10px;
+  align-self: center;
+  display: none; /* 기본적으로 숨김 */
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}

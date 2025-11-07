@@ -3,22 +3,30 @@ const $  = (s, c=document) => c.querySelector(s);
 const $$ = (s, c=document) => Array.from(c.querySelectorAll(s));
 
 // Footer year
-const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
+const year = $('#year'); 
+if (year) year.textContent = new Date().getFullYear();
 
 /* ========== Sidebar ========== */
-const openSidebar  = () => { document.body.classList.add('is-open');  $('#sidebar').setAttribute('aria-hidden','false'); $('#overlay').setAttribute('aria-hidden','false'); };
-const closeSidebar = () => { document.body.classList.remove('is-open'); $('#sidebar').setAttribute('aria-hidden','true');  $('#overlay').setAttribute('aria-hidden','true');  };
+const openSidebar  = () => { 
+  document.body.classList.add('is-open');  
+  $('#sidebar').setAttribute('aria-hidden','false'); 
+  $('#overlay').setAttribute('aria-hidden','false'); 
+};
+const closeSidebar = () => { 
+  document.body.classList.remove('is-open'); 
+  $('#sidebar').setAttribute('aria-hidden','true');  
+  $('#overlay').setAttribute('aria-hidden','true');  
+};
 
 $('#openSidebar').addEventListener('click', openSidebar);
 $('#closeSidebar').addEventListener('click', closeSidebar);
 $('#overlay').addEventListener('click', closeSidebar);
 window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSidebar(); });
 
-/* ========== Login (stub) ========== */
+/* ========== Login ========== */
 $('#loginBtn').addEventListener('click', () => {
   window.location.href = "login.html";
 });
-
 
 /* ========== Search (stub) ========== */
 $('#searchForm').addEventListener('submit', (e)=>{
@@ -64,7 +72,14 @@ function createWidget(type){
     <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>`;
-  closeBtn.addEventListener('click', ()=> card.remove());
+
+  // ✅ 마지막 위젯도 제대로 삭제되도록 setTimeout 적용
+  closeBtn.addEventListener('click', () => {
+    setTimeout(() => {
+      card.remove();
+      updateWidgetHint(); // 삭제 후 문구 갱신
+    }, 0);
+  });
 
   header.append(h3, closeBtn);
 
@@ -74,30 +89,41 @@ function createWidget(type){
   switch(type){
     case 'timetable': {
       h3.textContent = '시간표';
-      const wrap = document.createElement('div'); wrap.className = 'timetable';
-      const cells = document.createElement('div'); cells.className = 'cells';
+      const wrap = document.createElement('div'); 
+      wrap.className = 'timetable';
+      const cells = document.createElement('div'); 
+      cells.className = 'cells';
       for(let i=0;i<30;i++) cells.appendChild(document.createElement('div'));
-      wrap.appendChild(cells); body.appendChild(wrap); break;
+      wrap.appendChild(cells); 
+      body.appendChild(wrap); 
+      break;
     }
     case 'lunch': {
       h3.textContent = '오늘의 급식';
-      const ul = document.createElement('ul'); ul.className = 'lunch-list';
+      const ul = document.createElement('ul'); 
+      ul.className = 'lunch-list';
       ['밥 · 국 · 메인 반찬','부반찬 A','부반찬 B','디저트(과일/요거트)'].forEach(t=>{
-        const li = document.createElement('li'); li.textContent = t; ul.appendChild(li);
+        const li = document.createElement('li'); 
+        li.textContent = t; 
+        ul.appendChild(li);
       });
-      body.appendChild(ul); break;
+      body.appendChild(ul); 
+      break;
     }
     case 'exam-schedule': {
       h3.textContent = '수행평가 일정';
-      body.innerHTML = '<p>다가오는 수행평가 일정이 표시됩니다. (연동 예정)</p>'; break;
+      body.innerHTML = '<p>다가오는 수행평가 일정이 표시됩니다. (연동 예정)</p>'; 
+      break;
     }
     case 'calendar': {
       h3.textContent = '캘린더';
-      body.innerHTML = '<p>월간 학사일정 위젯입니다. (연동 예정)</p>'; break;
+      body.innerHTML = '<p>월간 학사일정 위젯입니다. (연동 예정)</p>'; 
+      break;
     }
     case 'notice': {
       h3.textContent = '알림';
-      body.innerHTML = '<p>공지/알림 모아보기. (연동 예정)</p>'; break;
+      body.innerHTML = '<p>공지/알림 모아보기. (연동 예정)</p>'; 
+      break;
     }
     default: {
       h3.textContent = '커스텀 위젯';
@@ -109,16 +135,34 @@ function createWidget(type){
   return card;
 }
 
-/* 모달에서 위젯 선택 → 추가 */
+/* ========== 위젯 안내 문구 (NEW) ========== */
+function updateWidgetHint() {
+  const widgetCount = document.querySelectorAll('.widget-grid .widget').length;
+  const hint = document.getElementById('widgetHint');
+  if (!hint) return;
+  hint.style.display = widgetCount === 0 ? 'inline-block' : 'none';
+}
+
+/* ========== 모달에서 위젯 추가 ========== */
 $$('.picker-item', modal).forEach(btn=>{
   btn.addEventListener('click', ()=>{
     const w = createWidget(btn.dataset.widget);
     $('#widgetGrid').appendChild(w);
+    updateWidgetHint(); // 추가 후 문구 갱신
     closeModal();
   });
 });
 
-/* 초기 위젯의 삭제 버튼 연결 */
+/* ========== 초기 위젯 삭제 버튼 ========== */
 $$('.remove-widget').forEach(btn=>{
-  btn.addEventListener('click', (e)=> e.currentTarget.closest('.widget').remove());
+  btn.addEventListener('click', (e)=> {
+    const card = e.currentTarget.closest('.widget');
+    setTimeout(() => {
+      card.remove();
+      updateWidgetHint(); // 삭제 후 문구 갱신
+    }, 0);
+  });
 });
+
+/* ✅ 페이지 로드 시 초기 상태 확인 */
+updateWidgetHint();

@@ -143,14 +143,15 @@
 
       /* ✅ Lite 로고 중앙 표시 (심플형) */
       .logo-image {
-        width: 160px; /* 크기 조절 가능 */
-        height: auto;
+        width: 160px !important; /* 크기 조절 가능 */
+        height: auto !important;
         filter: drop-shadow(
-          0 0 6px rgba(255, 255, 255, 0.3)
+          0 0 3px rgba(255, 255, 255, 0.3)
         ); /* 은은한 그림자 */
         opacity: 0.95;
         animation: fadeIn 2s ease-in-out;
       }
+
       @keyframes fadeIn {
         from {
           opacity: 0;

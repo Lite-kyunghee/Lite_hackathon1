@@ -1,100 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8">
   <title>가채점 시스템</title>
   <link rel="stylesheet" href="gache.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">경희고 가채점</div>
-    <div class="right">
-      사용자: <span id="userName">학생</span>
-    </div>
-  </header>
+  <div class="container">
+    <header>
+      <h1>2025 가채점 시스템</h1>
+    </header>
 
-  <main class="wrap">
-    <!-- 메인: 달력 + 시험 선택 -->
-    <section id="view-main" class="card view">
-      <div class="flex-row">
-        <div class="left-col">
-          <h2>캘린더</h2>
-          <div id="calendar"></div>
-          <div class="legend"><span class="dot exam-dot"></span>시험일</div>
+    <main>
+      <section id="calendarSection">
+        <h2>📆 2025 학사 일정 달력</h2>
+        <div id="calendar"></div>
+        <div id="upcoming">
+          <h3>📢 다가오는 일정</h3>
+          <p id="upcomingEvent">불러오는 중...</p>
         </div>
+      </section>
 
-        <div class="right-col">
-          <h2>시험 선택</h2>
-          <div class="btn-row">
-            <button class="big-btn" data-type="mock">모의고사</button>
-            <button class="big-btn" data-type="regular">정기고사</button>
-          </div>
+      <section id="actions">
+        <button id="startBtn">가채점하기</button>
+      </section>
 
-          <div id="examListWrap" class="card small" style="margin-top:14px;">
-            <h3>다가오는 시험</h3>
-            <div id="upcomingList"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 시험 목록 -->
-    <section id="view-examlist" class="card view" style="display:none;">
-      <button class="back" data-target="view-main">← 뒤로</button>
-      <h2 id="examTitle">시험 선택</h2>
-      <div id="examList" class="list"></div>
-    </section>
-
-    <!-- 과목 선택 -->
-    <section id="view-subject" class="card view" style="display:none;">
-      <button class="back" data-target="view-examlist">← 뒤로</button>
-      <h2 id="examNameDisplay">시험명</h2>
-      <div id="subjectList" class="list"></div>
-    </section>
-
-    <!-- mae3 스타일 마킹(가채점) -->
-    <section id="view-mark" class="card view" style="display:none;">
-      <button class="back" data-target="view-subject">← 뒤로</button>
-      <h2 id="markHeader">가채점</h2>
-
-      <div class="mark-meta">
-        <label>문항 수:
-          <input id="qCount" type="number" min="1" value="10" />
-        </label>
-        <label>정답 입력 방식:
-          <select id="inputMode">
-            <option value="letters">A/B/C/D (문자)</option>
-            <option value="numbers">숫자(예:1,2,3)</option>
-          </select>
-        </label>
-      </div>
-
-      <div id="markContainer" class="mark-container"></div>
-
-      <div class="actions">
-        <button id="autoFill" class="muted">다음문항 자동 생성</button>
-        <button id="doMark" class="primary">채점하기</button>
-        <button id="saveLocal" class="muted">저장 (로컬)</button>
-      </div>
-
-      <div id="markResult" class="result" style="display:none;"></div>
-    </section>
-
-    <!-- 종합 결과 -->
-    <section id="view-summary" class="card view" style="display:none;">
-      <button class="back" data-target="view-main">← 돌아가기</button>
-      <h2>내 가채점 종합 결과</h2>
-      <div id="summaryArea"></div>
-
-      <div style="margin-top:12px;">
-        <button id="exportData" class="muted">로컬 데이터 내보내기 (JSON)</button>
-        <button id="clearData" class="danger">로컬 데이터 초기화</button>
-      </div>
-    </section>
-  </main>
-
-  <footer class="foot">© 경희고 가채점 (로컬 데모)</footer>
+      <section id="mainContent"></section>
+    </main>
+  </div>
 
   <script src="gache.js"></script>
 </body>

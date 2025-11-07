@@ -1,81 +1,68 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from datetime import datetime
+import random, json, os
 
 app = Flask(__name__)
 CORS(app)
 
-# ------------------------------
-# 예시 데이터 (모의고사 / 정기고사 날짜)
-# ------------------------------
-mock_tests = {
-    "9월": "2025-09-04",
-    "10월": "2025-10-31"
-}
+ANSWER_FILE = "answers.json"
 
-regular_tests = {
-    "1학기 중간": "2025-05-01",
-    "1학기 기말": "2025-07-01",
-    "2학기 중간": "2025-09-25",
-    "2학기 기말": "2025-11-30"
-}
+def generate_answers():
+    """국어 정기고사용 랜덤 모범답 생성"""
+    data = {
+        "korean_regular": {
+            "multiple_choice": [random.randint(1, 5) for _ in range(30)],
+            "essay": {1: "주제", 2: "인물", 3: "배경", 4: "표현"}
+        }
+    }
+    with open(ANSWER_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    return data
 
-student_scores = {}  # {username: {test_type: {subject: score}}}
+def load_answers():
+    """모범답 불러오기 (없으면 생성)"""
+    if not os.path.exists(ANSWER_FILE):
+        return generate_answers()
+    with open(ANSWER_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-# ------------------------------
-# 날짜 검증 API
-# ------------------------------
-@app.route('/api/check-date', methods=['POST'])
-def check_date():
-    data = request.json
-    test_type = data.get('type')  # mock / regular
-    test_name = data.get('name')
-    
-    today = datetime.today().strftime("%Y-%m-%d")
-    test_day = mock_tests.get(test_name) if test_type == 'mock' else regular_tests.get(test_name)
-    
-    if not test_day:
-        return jsonify({"ok": False, "msg": "시험 정보를 찾을 수 없습니다."})
-    
-    if today < test_day:
-        return jsonify({"ok": False, "msg": f"{test_name} 가채점 시간 전입니다."})
-    elif today > test_day:
-        return jsonify({"ok": True, "msg": f"{test_name} 가채점이 가능합니다."})
-    else:
-        return jsonify({"ok": True, "msg": f"{test_name} 당일입니다. 가채점 가능합니다."})
+@app.route("/grade", methods=["POST"])
+def grade():
+    data = load_answers()
+    correct = data["korean_regular"]["multiple_choice"]
+    user_answers = request.json.get("answers", [])
+    essay_answers = request.json.get("essay_answers", {})
 
-# ------------------------------
-# 점수 제출 및 저장
-# ------------------------------
-@app.route('/api/submit-score', methods=['POST'])
-def submit_score():
-    data = request.json
-    username = data['username']
-    test_type = data['type']
-    test_name = data['name']
-    subject = data['subject']
-    score = int(data['score'])
-    
-    student_scores.setdefault(username, {}).setdefault(test_name, {})[subject] = score
-    return jsonify({"msg": "점수 저장 완료", "data": student_scores[username]})
+    score = 0
+    detail = []
 
-# ------------------------------
-# 예상 등급 계산 (단순 평균 기반 예시)
-# ------------------------------
-@app.route('/api/predict-grade', methods=['POST'])
-def predict_grade():
-    data = request.json
-    scores = data['scores']
-    avg = sum(scores) / len(scores)
-    
-    if avg >= 90: grade = 1
-    elif avg >= 80: grade = 2
-    elif avg >= 70: grade = 3
-    elif avg >= 60: grade = 4
-    elif avg >= 50: grade = 5
-    else: grade = 6
-    
-    return jsonify({"average": avg, "predicted_grade": grade})
+    for i in range(30):
+        user = user_answers[i]
+        correct_ans = correct[i]
+        is_correct = (user == correct_ans)
+        if is_correct:
+            score += 2
+        detail.append({
+            "no": i + 1,
+            "correct": correct_ans,
+            "user": user,
+            "result": "✅" if is_correct else "❌"
+        })
 
-if __name__ == '__main__':
+    essay_detail = []
+    for i in range(1, 5):
+        essay_detail.append({
+            "no": i,
+            "expected": data["korean_regular"]["essay"][i],
+            "user": essay_answers.get(str(i), ""),
+            "result": "미채점"
+        })
+
+    return jsonify({
+        "total_score": score,
+        "multiple_choice": detail,
+        "essay": essay_detail
+    })
+
+if __name__ == "__main__":
     app.run(debug=True)

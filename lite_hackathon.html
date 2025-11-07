@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>L.I.T.E</title>
+  <link rel="stylesheet" href="lite_hackathon.css" />
+</head>
+<body>
+  <!-- 사이드바 오버레이 -->
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <!-- 좌측 사이드바 (부가기능) -->
+  <aside id="sidebar" class="sidebar" aria-label="부가기능 내비게이션" aria-hidden="true">
+    <header class="sidebar-header">
+      <strong>부가기능</strong>
+      <button class="icon-btn sm" id="closeSidebar" aria-label="사이드바 닫기">
+        <!-- X icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <span id="widgetHint" class="widget-hint">( + 버튼을 눌러 위젯을 추가하세요 )</span>
+    </header>
+
+    <nav class="sidebar-menu">
+      <a href="suhang.html" class="menu-item">📝 수행평가</a>
+      <a href="#" class="menu-item">📊 성적조회</a>
+      <a href="#" class="menu-item">✅ 정기고사 모범답</a>
+      <a href="gache.html" class="menu-item">🧮 정기고사 가채점</a>
+      <a href="#" class="menu-item">📚 모의고사 학습</a>
+      <a href="#" class="menu-item">🔔 알림신청</a>
+      <a href="#" class="menu-item">🗂️ 경희 게시판</a>
+      <a href="#" class="menu-item">💼 포트폴리오</a>
+      <a href="#" class="menu-item">🧭 진로상담</a>
+      <a href="#" class="menu-item">🗓️ 학교일정</a>
+    </nav>
+
+    <footer class="sidebar-footer">© <span id="year"></span> L.I.T.E</footer>
+  </aside>
+
+  <!-- 상단 헤더 -->
+  <header class="header" role="banner">
+    <!-- 햄버거 버튼 -->
+    <button class="icon-btn" id="openSidebar" aria-label="메뉴 열기">
+      <!-- Hamburger -->
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- 중앙 로고(추후 아이콘 교체) -->
+    <div class="logo">L . I . T . E</div>
+
+    <!-- 로그인 버튼 -->
+    <button class="icon-btn circle" id="loginBtn" title="로그인">
+      <!-- Login -->
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M10 17l5-5-5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 12H3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- 메인 -->
+  <main class="container" role="main">
+    <!-- 검색 -->
+    <form class="search" id="searchForm" role="search" aria-label="사이트 검색">
+      <span class="search-icon" aria-hidden="true">
+        <!-- Magnifier -->
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M20 20l-3.65-3.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <input id="q" type="search" placeholder="무엇이든 물어보세요..." autocomplete="off" />
+    </form>
+
+    <!-- 위젯 + 플러스 묶음 -->
+    <div class="stack">
+      <!-- 위젯 그리드 -->
+      <section id="widgetGrid" class="widget-grid" aria-label="위젯 영역">
+        <!-- 위젯: 시간표 -->
+        <article class="widget" data-widget="timetable">
+          <header class="widget-header">
+            <h3>시간표</h3>
+            <button class="icon-btn sm remove-widget" title="위젯 삭제" aria-label="위젯 삭제">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </header>
+          <div class="widget-body">
+            <div class="timetable"><div class="cells"></div></div>
+          </div>
+        </article>
+
+        <!-- 위젯: 오늘의 급식 -->
+        <article class="widget" data-widget="lunch">
+          <header class="widget-header">
+            <h3>오늘의 급식</h3>
+            <button class="icon-btn sm remove-widget" title="위젯 삭제" aria-label="위젯 삭제">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </header>
+          <div class="widget-body">
+            <ul class="lunch-list">
+              <li>밥 · 국 · 불고기</li>
+              <li>배추김치</li>
+              <li>계란후라이</li>
+              <li>디저트(과일/요거트)</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <!-- 플러스 버튼 (위젯 옆) -->
+      <button id="fabAdd" class="fab" title="위젯 추가" aria-label="위젯 추가">
+        <!-- Plus -->
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </main>
+
+  <!-- 위젯 추가 모달 -->
+  <div class="modal" id="widgetModal" aria-hidden="true" role="dialog" aria-label="위젯 추가">
+    <div class="modal-card" role="document">
+      <header class="modal-header">
+        <strong>위젯 추가</strong>
+        <button class="icon-btn sm" id="closeModal" aria-label="모달 닫기">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </header>
+      <div class="modal-body">
+        <div class="widget-picker">
+          <button class="picker-item" data-widget="timetable">🗓️ 시간표</button>
+          <button class="picker-item" data-widget="lunch">🍱 오늘의 급식</button>
+          <button class="picker-item" data-widget="exam-schedule">📝 수행평가 일정</button>
+          <button class="picker-item" data-widget="calendar">📆 캘린더</button>
+          <button class="picker-item" data-widget="notice">🔔 알림</button>
+        </div>
+      </div>
+      <footer class="modal-footer"><small>원하는 위젯을 클릭하면 즉시 추가됩니다.</small></footer>
+    </div>
+  </div>
+
+  <script src="lite_hackathon.js"></script>
+
+  <!-- 모드 전환 버튼 -->
+<button id="themeToggle" class="theme-toggle" title="모드 전환">🌙</button>
+
+
+</body>
+</html>

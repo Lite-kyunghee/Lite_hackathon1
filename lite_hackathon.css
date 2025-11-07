@@ -1,0 +1,312 @@
+:root{
+  --bg:#0c0f13;        /* 배경 */
+  --panel:#12161d;     /* 카드/사이드바 */
+  --line:#e7e7ec;      /* 기본 선/글자 */
+  --muted:#a2a8b4;     /* 보조 텍스트 */
+  --accent:#6ea8ff;    /* 포인트 파랑 */
+  --accent2:#9b7bff;   /* 보조 포인트 보라 */
+  --border:rgba(231,231,236,.22);
+  --shadow:0 18px 50px rgba(0,0,0,.45), 0 6px 16px rgba(0,0,0,.35);
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--line); background:var(--bg);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Helvetica, Arial;
+}
+
+/* 공통 아이콘 버튼 */
+.icon-btn{
+  background:transparent; color:var(--line);
+  border:1.5px solid var(--border);
+  border-radius:12px; width:42px; height:42px;
+  display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:border-color .15s ease, transform .05s ease;
+}
+.icon-btn:active{ transform:translateY(1px); }
+.icon-btn.circle{ border-radius:50% }
+.icon-btn.sm{ width:32px; height:32px; border-radius:10px }
+.icon-btn:hover{ border-color:#fff }
+
+/* 헤더 */
+.header{
+  position:fixed; inset:0 0 auto 0; height:64px;
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  padding:0 16px; z-index:60; backdrop-filter:saturate(180%) blur(6px);
+  border-bottom:1px solid var(--border);
+}
+.header #openSidebar{ position:absolute; left:10px; }
+.header #loginBtn{ position:absolute; right:10px; }
+.logo{
+  font-weight:800; letter-spacing:.6rem; text-transform:uppercase;
+  font-size:22px; color:#eef1f7;
+}
+
+/* 메인 컨테이너 */
+.container{
+  max-width:1100px; margin:0 auto;
+  padding:100px 20px 80px;
+  display:flex; flex-direction:column; align-items:center;
+}
+
+/* 검색창: 중앙보다 살짝 위 */
+.search{
+  width:min(760px, 92%); position:relative; top:-18px;
+  margin:36px auto 28px; padding:16px 18px; gap:12px;
+  display:flex; align-items:center;
+  border-radius:999px; border:2px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  box-shadow:var(--shadow);
+}
+.search-icon{ opacity:.95 }
+.search input{
+  flex:1; font-size:18px; padding:6px 4px; color:var(--line);
+  background:transparent; border:none; outline:none;
+}
+
+/* 위젯 묶음/플러스 */
+.stack{
+  display:flex; align-items:flex-start; gap:18px; flex-wrap:wrap; justify-content:center;
+}
+
+/* 위젯 그리드 */
+.widget-grid{
+  display:flex; flex-wrap:wrap; gap:16px; justify-content:center;
+}
+.widget{
+  width:300px; background:var(--panel);
+  border:1.5px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden; transition:transform .18s ease;
+}
+.widget:hover{ transform:translateY(-3px) }
+.widget-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-bottom:1.5px solid var(--line);
+}
+.widget-header h3{ margin:0; font-size:16px }
+.widget-body{ padding:12px }
+
+/* 시간표 */
+.timetable .cells{
+  display:grid; grid-template-columns:repeat(6,1fr); gap:6px;
+}
+.timetable .cells div{
+  aspect-ratio:1/1; border:1.5px solid var(--line); border-radius:10px;
+  background:transparent;
+}
+
+/* 급식 */
+.lunch-list{ margin:0; padding-left:18px; color:var(--line) }
+.lunch-list li{ margin:6px 0 }
+
+/* 플러스 버튼 */
+.fab{
+  width:50px; height:50px; border-radius:50%; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:var(--shadow); transition:transform .15s ease, filter .15s ease;
+}
+.fab:hover{ transform:scale(1.08); filter:saturate(1.1) }
+
+/* 사이드바 */
+.overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.5);
+  opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:70;
+}
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:320px; max-width:88vw;
+  background:var(--panel); border-right:1.5px solid var(--line);
+  transform:translateX(-100%); transition:transform .25s ease; z-index:80;
+  display:flex; flex-direction:column;
+}
+.sidebar-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; border-bottom:1.5px solid var(--line);
+}
+.sidebar-menu{ padding:8px 0; overflow:auto }
+.menu-item{
+  display:block; padding:12px 16px; text-decoration:none; color:var(--line);
+  border-left:3px solid transparent;
+}
+.menu-item:hover{ background:rgba(255,255,255,.06); border-left-color:#fff }
+.sidebar-footer{
+  margin-top:auto; padding:12px 16px; border-top:1.5px solid var(--line); color:var(--muted);
+}
+
+/* 모달 */
+.modal{
+  position:fixed; inset:0; display:grid; place-items:center;
+  background:rgba(0,0,0,.5); opacity:0; pointer-events:none;
+  transition:opacity .2s ease; z-index:90;
+}
+.modal-card{
+  width:min(560px,92vw); background:var(--panel); color:var(--line);
+  border:1.5px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow:hidden;
+}
+.modal-header,.modal-footer{
+  padding:14px 16px; border-bottom:1.5px solid var(--line);
+}
+.modal-footer{ border-top:1.5px solid var(--line); border-bottom:none }
+.modal-body{ padding:16px }
+.widget-picker{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+}
+.picker-item{
+  padding:12px; border:1.5px dashed var(--line); border-radius:12px; color:var(--line);
+  background:transparent; cursor:pointer;
+}
+.picker-item:hover{ background:rgba(255,255,255,.06) }
+
+/* 열린 상태 */
+.is-open .overlay{ opacity:1; pointer-events:auto }
+.is-open #sidebar{ transform:translateX(0) }
+.is-modal .modal{ opacity:1; pointer-events:auto }
+
+/* 반응형 */
+@media (max-width:800px){
+  .widget{ width:92% }
+  .fab{ margin:10px auto }
+}
+.widget-hint {
+  font-size: 14px;
+  color: #fff; /* 👈 명확하게 밝은 회색 계열로 지정 */
+  margin-left: 10px;
+  align-self: center;
+  display: none; /* 기본적으로 숨김 */
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+
+/* 🌞 라이트모드 전용 스타일 확장 */
+body.light-mode {
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+/* 🌞 위젯 */
+body.light-mode .widget {
+  background-color: #ffffff;
+  border: 1.5px solid #ccc;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌞 위젯 내 테이블 */
+body.light-mode .widget table,
+body.light-mode .widget td,
+body.light-mode .widget th {
+  border-color: #ccc;
+}
+
+/* 🌞 검색창 */
+body.light-mode .search-box input {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌞 로고 (L.I.T.E 텍스트) */
+body.light-mode .logo {
+  color: #222 !important;
+}
+
+/* 🌞 햄버거 메뉴 (≡) */
+body.light-mode .menu-toggle {
+  color: #222 !important;
+  border-color: #ccc;
+}
+
+body.light-mode .menu-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 🌞 로그인 버튼 (우측 상단) */
+body.light-mode .login-btn {
+  color: #222 !important;
+  border-color: #ccc;
+}
+
+body.light-mode .login-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 🌞 사이드바 */
+body.light-mode .sidebar {
+  background-color: #fff;
+  color: #111;
+  border-right: 1px solid #ddd;
+}
+
+/* 🌗 모드 전환 버튼 (애니메이션 포함 완전 버전) */
+.theme-toggle {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #ffcc66;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: scale(1);
+}
+
+/* hover 시 */
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 220, 100, 0.5);
+}
+
+/* 클릭 시 (눌림 효과) */
+.theme-toggle:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(255, 220, 100, 0.3);
+}
+
+/* 라이트 모드 전환 후 */
+body.light-mode .theme-toggle {
+  color: #222;
+  border-color: #222;
+  background-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 라이트모드 hover 시 */
+body.light-mode .theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* 🌞 링크 등 */
+body.light-mode a {
+  color: #0077cc;
+}
+
+/* ===== 부드러운 모드 전환 효과 ===== */
+body {
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* 모든 주요 요소 전환 시 부드럽게 바뀌게 */
+.widget,
+header,
+.search-box input,
+.menu-toggle,
+.login-btn,
+.theme-toggle {
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.3s ease;
+}

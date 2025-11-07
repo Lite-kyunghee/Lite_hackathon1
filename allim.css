@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background: radial-gradient(circle at top, #0a0f24, #000);
+  color: #e5e7eb;
+}
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+.header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.header h1 {
+  background: linear-gradient(to right, #38bdf8, #60a5fa, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.menu-btn {
+  background: rgba(30, 41, 59, 0.9);
+  border: none;
+  color: #e5e7eb;
+  padding: 20px 30px;   /* 👈 버튼 세로, 가로 크기 증가 */
+  font-size: 1.1rem;    /* 👈 글자 크기 살짝 키움 */
+  border-radius: 14px;  /* 👈 모서리 둥글게 */
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-btn:hover {
+  background: rgba(56, 189, 248, 0.8);
+  color: #020617;
+}
+.card {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(17, 24, 39, 0.95);
+  box-shadow: 0 0 15px rgba(56,189,248,0.3);
+}
+.hidden {
+  display: none;
+}
+.sub-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sub-menu button {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid #60a5fa;
+  color: #e0f2fe;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.sub-menu button:hover {
+  background: #38bdf8;
+  color: #020617;
+}
+label {
+  display: block;
+  margin: 8px 0 4px;
+}
+input, select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: rgba(3,7,18,0.9);
+  color: #e2e8f0;
+}
+.checkbox-group {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0;
+}
+.btn {
+  margin-top: 10px;
+  background: linear-gradient(to right, #2563eb, #38bdf8);
+  border: none;
+  color: #020617;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btn:hover {
+  box-shadow: 0 0 10px #38bdf8;
+}

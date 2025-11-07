@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>경희고 알림 신청 시스템</title>
+  <link rel="stylesheet" href="allim.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <h1>🔔 경희고 알림 신청 시스템</h1>
+      <p>Lite와 함께 경희고 활동들을 쉽게 신청해보세요!</p>
+    </header>
+
+    <section class="menu">
+      <button class="menu-btn" onclick="openSection('deepdive')">💡 딥다이브 신청</button>
+      <button class="menu-btn" onclick="openSection('prime')">🏫 경희프라임 신청</button>
+      <button class="menu-btn" onclick="openSection('dinner')">🍱 석식 신청</button>
+      <button class="menu-btn" onclick="openSection('experience')">🎓 학과체험 신청</button>
+      <button class="menu-btn" onclick="openSection('etc')">📄 기타 신청</button>
+    </section>
+
+    <!-- 딥다이브 -->
+    <section id="deepdive" class="card hidden">
+      <h2>💡 딥다이브 신청</h2>
+      <div class="sub-menu">
+        <button onclick="openForm('물리학 딥다이브')">물리학</button>
+        <button onclick="openForm('의생명과학 딥다이브')">의생명과학</button>
+        <button onclick="openForm('소프트웨어 딥다이브')">소프트웨어</button>
+        <button onclick="openForm('경제학 딥다이브')">경제학</button>
+      </div>
+    </section>
+
+    <!-- 경희프라임 -->
+    <section id="prime" class="card hidden">
+      <h2>🏫 경희프라임 신청</h2>
+      <div class="sub-menu">
+        <button onclick="openForm('물리학 프라임')">물리학</button>
+        <button onclick="openForm('의생명과학 프라임')">의생명과학</button>
+        <button onclick="openForm('F1 프라임')">F1</button>
+      </div>
+    </section>
+
+    <!-- 석식 -->
+    <section id="dinner" class="card hidden">
+      <h2>🍱 석식 신청</h2>
+      <form id="dinnerForm">
+        <label>야자를 신청하셨나요?</label>
+        <select id="studyCheck" onchange="toggleDinnerFields()">
+          <option value="">-- 선택 --</option>
+          <option value="yes">예</option>
+          <option value="no">아니요</option>
+        </select>
+
+        <div id="dinnerDetails" class="hidden">
+          <label>이름(예 : 홍길동)</label>
+          <input type="text" id="dinnerName" required />
+          <label>학번(예 : 10314) </label>
+          <input type="text" id="dinnerNum" required />
+          <label>석식을 먹을 요일</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" value="월요일" /> 월</label>
+            <label><input type="checkbox" value="화요일" /> 화</label>
+            <label><input type="checkbox" value="수요일" /> 수</label>
+            <label><input type="checkbox" value="목요일" /> 목</label>
+            <label><input type="checkbox" value="금요일" /> 금</label>
+          </div>
+          <button type="submit" class="btn">제출</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 학과체험 -->
+    <section id="experience" class="card hidden">
+      <h2>🎓 학과체험 신청</h2>
+      <div class="sub-menu">
+        <button onclick="openForm('서울시립대학교 환경공학부 체험')">서울시립대 환경공학부</button>
+        <button onclick="openForm('서울시립대학교 경제학과 체험')">서울시립대 경제학과</button>
+        <button onclick="openForm('인하대학교 경제학과 체험')">인하대 경제학과</button>
+        <button onclick="openForm('한양대학교 컴퓨터소프트웨어학과 체험')">한양대 컴퓨터소프트웨어학과</button>
+      </div>
+    </section>
+
+    <!-- 기타 -->
+    <section id="etc" class="card hidden">
+      <h2>📄 기타 신청</h2>
+      <div class="sub-menu">
+        <button onclick="alert('스쿨점퍼 신청 페이지로 이동합니다.')">스쿨점퍼</button>
+        <button onclick="alert('진로의 날 신청 페이지로 이동합니다.')">진로의 날</button>
+        <button onclick="alert('결석신고서 제출 페이지로 이동합니다.')">결석신고서</button>
+      </div>
+    </section>
+
+    <!-- 공통 폼 -->
+    <section id="formSection" class="card hidden">
+      <h2 id="formTitle"></h2>
+      <form id="commonForm">
+        <label>이름(예 : 홍길동)</label>
+        <input type="text" id="name" required />
+        <label>학번(예 : 10314)</label>
+        <input type="text" id="num" required />
+        <label>서명(예 : 홍길동)</label>
+        <input type="text" id="sign" placeholder="서명 또는 이름 다시 입력" required />
+        <button type="submit" class="btn">제출</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="allim.js"></script>
+</body>
+</html>

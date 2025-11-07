@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI 진로상담</title>
+  <link rel="stylesheet" href="sangdam.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <h1>🤖 AI 진로상담</h1>
+      <p>“나는 수학이 좋아”, “사람 돕는 일에 관심 있어”처럼 편하게 말해보세요.</p>
+      <p>관심과 강점을 바탕으로 어울리는 학과와 직업을 추천합니다.</p>
+    </header>
+
+    <main class="main">
+      <!-- 입력 영역 -->
+      <section class="card">
+        <h2 class="section-title">1. 나를 소개해 주세요</h2>
+        <p class="hint">
+          예시) "나는 수학이랑 코딩이 재밌어", "사람들과 대화하고 돕는 걸 좋아해",
+          "비즈니스/창업에 관심 있어", "우주·항공·로켓 보면 설렌다"
+        </p>
+
+        <div class="preset-tags">
+          <button class="tag" data-text="나는 수학이랑 문제 푸는 게 재밌어.">수학 좋아해요</button>
+          <button class="tag" data-text="나는 컴퓨터랑 코딩, 인공지능에 관심이 있어.">코딩/AI 관심</button>
+          <button class="tag" data-text="나는 사람을 돕고 상담해주는 게 좋아.">사람 돕는 거 좋아</button>
+          <button class="tag" data-text="나는 비즈니스, 마케팅, 창업에 관심 있어.">경영/비즈니스</button>
+          <button class="tag" data-text="나는 디자인, 그림, 예쁜 것 만드는 걸 좋아해.">디자인/예술</button>
+          <button class="tag" data-text="나는 우주, 항공, 로켓에 관심 있어.">항공우주</button>
+        </div>
+
+        <textarea id="userInput"
+          placeholder="좋아하는 과목, 관심 분야, 잘하는 것, 하고 싶은 일을 자유롭게 적어 주세요. (복수 가능)"></textarea>
+        <button id="analyzeBtn" class="btn-primary">AI 상담 받기</button>
+      </section>
+
+      <!-- 결과 영역 -->
+      <section id="resultSection" class="card" style="display:none;">
+        <h2 class="section-title">2. 추천 결과</h2>
+        <div id="summaryText" class="summary-text"></div>
+        <div id="profilesContainer" class="profiles"></div>
+
+        <div class="next-hint">
+          더 궁금한 전공/직업이 있으면, 이 페이지 아래에서 직접 이어서 질문하거나,<br />
+          “어느 과를 가야 할까요?”, “이 직업은 어떤 준비가 필요해요?” 같은 질문으로 확장할 수 있어요.
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      © 2025 경희고 AI 진로상담 시스템
+    </footer>
+  </div>
+
+  <script src="sangdam.js"></script>
+</body>
+</html>

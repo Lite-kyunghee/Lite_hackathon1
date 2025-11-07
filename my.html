@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>L.I.T.E | My 페이지</title>
+  <link rel="stylesheet" href="my.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0b132b;
+      color: #fff;
+    }
+    header {
+      background: rgba(11, 19, 43, 0.9);
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { font-size: 1.2rem; }
+    main {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.8rem 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .tab.active {
+      background: #4f46e5;
+      box-shadow: 0 0 10px rgba(79, 70, 229, 0.6);
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+    }
+    th {
+      color: #a5b4fc;
+      font-size: 0.9rem;
+    }
+    .dday {
+      font-weight: 600;
+      color: #38bdf8;
+    }
+    .expired { color: #fb7185; }
+    .today { color: #22c55e; }
+    .none { color: #6b7280; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📂 나의 페이지 (My)</h1>
+    <button onclick="history.back()" style="background:none;border:none;color:#a5b4fc;cursor:pointer;">← 뒤로</button>
+  </header>
+
+  <main>
+    <div class="tabs">
+      <div class="tab active" id="tab-suhang">📘 수행평가</div>
+      <div class="tab" id="tab-forms">📝 신청서</div>
+    </div>
+
+    <div id="content" class="card"></div>
+  </main>
+
+  <!-- ✅ 외부 스크립트 연결 -->
+  <script src="my.js"></script>
+</body>
+</html>

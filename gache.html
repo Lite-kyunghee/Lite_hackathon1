@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8">
   <title>가채점 시스템</title>
   <link rel="stylesheet" href="gache.css">
@@ -27,6 +28,51 @@
 
       <section id="mainContent"></section>
     </main>
+=======
+  <meta charset="UTF-8" />
+  <title>경희고 가채점 시스템</title>
+  <link rel="stylesheet" href="gache.css" />
+</head>
+<body>
+  <div class="wrap">
+    <!-- 헤더 -->
+    <header class="header">
+      <h1>경희고 가채점 시스템</h1>
+      <p>2025 학사 일정 · 모의고사 · 정기고사 가채점</p>
+    </header>
+
+    <!-- 달력 + 다가오는 일정 -->
+    <section class="card" id="calendarSection">
+      <div class="card-header">
+        <h2>2025 학사 달력</h2>
+      </div>
+      <div class="calendar-layout">
+        <div id="calendar" class="calendar"></div>
+        <aside class="upcoming-box">
+          <h3>다가오는 일정</h3>
+          <p id="upcomingEvent">불러오는 중...</p>
+          <button id="startBtn" class="btn-primary">가채점하기</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 단계 진행 -->
+    <section class="card" id="flowSection">
+      <div id="stepContainer">
+        <!-- JS에서 단계별 화면 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 결과 -->
+    <section class="card" id="resultSection" style="display:none;">
+      <div class="card-header">
+        <h2>채점 결과</h2>
+      </div>
+      <div id="resultSummary" class="result-summary"></div>
+      <div id="resultDetail" class="result-detail"></div>
+      <button id="backHomeBtn" class="btn-outline">처음으로 돌아가기</button>
+    </section>
+>>>>>>> origin/final2
   </div>
 
   <script src="gache.js"></script>

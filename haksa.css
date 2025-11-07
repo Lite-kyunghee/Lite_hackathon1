@@ -1,0 +1,140 @@
+body {
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+  background-color: #0e1012;
+  color: #f0f0f0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 라이트 모드 */
+body.light-mode {
+  background-color: #f7f7f7;
+  color: #111;
+}
+
+/* === 뒤로가기 버튼 === */
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 25px;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 라이트 모드 버튼 */
+body.light-mode .back-btn {
+  color: #000;
+  border: 1px solid #000;
+}
+
+body.light-mode .back-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* === 헤더 및 캘린더 스타일 === */
+header {
+  text-align: center;
+  padding: 60px 0 20px;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin: 0;
+  letter-spacing: 0.3em;
+}
+
+header p {
+  font-size: 1.1rem;
+  color: #aaa;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#calendar {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+/* 라이트 모드 캘린더 */
+body.light-mode #calendar {
+  background: white;
+  border: 1px solid #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  min-height: 80px;
+  text-align: center;
+  padding: 5px;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+/* 라이트 모드 테두리 */
+body.light-mode .day {
+  border: 1px solid #000;
+}
+
+.day:hover {
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.day .date {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.event {
+  font-size: 0.8rem;
+  color: #9ad3ff;
+}
+
+/* 라이트 모드 이벤트 글씨 */
+body.light-mode .event {
+  color: #0070f3;
+}
+
+body.theme-transition {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}

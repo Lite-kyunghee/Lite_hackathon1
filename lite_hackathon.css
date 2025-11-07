@@ -311,51 +311,62 @@ header,
   transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.3s ease;
 }
 
-/* ===== 라이트 모드 위젯 테두리 진하게 ===== */
+/* =============================== */
+/* 🌞 라이트 모드 대비 강화 (추가 부분) */
+/* =============================== */
+
+/* 헤더 구분선 진하게 */
+body.light-mode .header {
+  border-bottom: 1.5px solid #000; /* 진한 검정 라인 */
+}
+
+/* 햄버거 메뉴 (≡) */
+body.light-mode #openSidebar svg path {
+  stroke: #000 !important; /* 검정색으로 */
+}
+
+/* 로그인 버튼 (오른쪽 아이콘) */
+body.light-mode #loginBtn svg path {
+  stroke: #000 !important;
+}
+
+/* 위젯 테두리 */
 body.light-mode .widget {
-  border: 1.5px solid #222 !important; /* 테두리 진한 검정 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 깊이감 유지 */
+  border: 1.5px solid #000; /* 진한 테두리 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* 더 뚜렷한 그림자 */
 }
 
-/* 위젯 내부 테이블, 칸 구분선 등 */
-body.light-mode .widget table,
-body.light-mode .widget td,
-body.light-mode .widget th,
-body.light-mode .timetable-cell {
-  border-color: #222 !important;
+/* 검색창 */
+body.light-mode .search {
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* 위젯 제목 줄 밑선 */
-body.light-mode .widget h2 {
-  color: #111 !important;
-  border-bottom: 1px solid #222 !important;
+/* 검색창 돋보기 아이콘 */
+body.light-mode .search-icon svg path,
+body.light-mode .search-icon svg circle {
+  stroke: #000;
 }
 
-/* 위젯 닫기 버튼 아이콘도 어두운 색으로 */
-body.light-mode .widget .close-btn {
-  color: #222 !important;
-  border: 1px solid #333 !important;
-}
-
-/* ===== 라이트 모드: 위젯 상단 구분선 & 닫기 버튼 색상 ===== */
-body.light-mode .widget-header {
-  border-bottom: 1px solid #222 !important; /* 상단 구분선 진한 검정 */
-}
-
-body.light-mode .widget .close-btn {
-  color: #222 !important; /* 닫기 버튼 X 색상 검정 */
-  border: 1px solid #222 !important; /* 닫기 버튼 테두리도 검정 */
-  background-color: #f9f9f9 !important;
-}
-
-body.light-mode .widget .close-btn:hover {
-  background-color: #e0e0e0 !important; /* 살짝 회색 hover 효과 */
+/* L.I.T.E 로고 */
+body.light-mode .logo {
   color: #000 !important;
 }
-/* ===== 라이트 모드 상단 헤더 구분선 ===== */
-body.light-mode header,
-body.light-mode .navbar,
-body.light-mode .top-bar {
-  border-bottom: 2px solid #222 !important; /* 진한 검정색 구분선 */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 살짝 그림자 효과로 입체감 */
+
+/* 사이드바 테두리 */
+body.light-mode .sidebar {
+  border-right: 1.5px solid #000;
 }
+
+/* 사이드바 메뉴 hover 시 더 진하게 */
+body.light-mode .menu-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-left-color: #000;
+}
+
+/* 플러스 버튼 (FAB) 주변 대비 향상) */
+body.light-mode .fab {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+

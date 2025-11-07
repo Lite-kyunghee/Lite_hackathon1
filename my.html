@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>L.I.T.E | My 페이지</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0b132b;
+      color: #fff;
+    }
+    header {
+      background: rgba(11, 19, 43, 0.9);
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { font-size: 1.2rem; }
+    main {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.8rem 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .tab.active {
+      background: #4f46e5;
+      box-shadow: 0 0 10px rgba(79, 70, 229, 0.6);
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+    }
+    th {
+      color: #a5b4fc;
+      font-size: 0.9rem;
+    }
+    .dday {
+      font-weight: 600;
+      color: #38bdf8;
+    }
+    .expired { color: #fb7185; }
+    .today { color: #22c55e; }
+    .none { color: #6b7280; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📂 나의 페이지 (My)</h1>
+    <button onclick="history.back()" style="background:none;border:none;color:#a5b4fc;cursor:pointer;">← 뒤로</button>
+  </header>
+
+  <main>
+    <div class="tabs">
+      <div class="tab active" id="tab-suhang">📘 수행평가</div>
+      <div class="tab" id="tab-forms">📝 신청서</div>
+    </div>
+
+    <div id="content" class="card"></div>
+  </main>
+
+  <script>
+    const MY_DATA = {
+      suhang: [
+        { title: '2학년 수학 - 확률과 통계 심화탐구', teacher: '강수미', due: '2025-10-25' },
+        { title: '2학년 과학 - 지구과학Ⅰ 과학탐구보고서', teacher: '김기권', due: '2025-10-20' },
+        { title: '2학년 영어 - Speaking 수행평가', teacher: '오가영', due: '2025-10-22' }
+      ],
+      forms: [
+        { type: '딥다이브 신청', category: '소프트웨어 딥다이브', date: '2025-09-10' },
+        { type: '석식 신청', category: '월~금 석식', date: '2025-11-03' },
+        { type: '학과체험 신청', category: '한양대학교 컴퓨터소프트웨어학과', date: '2025-10-05' },
+        { type: '경희프라임 신청', category: 'F1 코스', date: '2025-09-20' }
+      ]
+    };
+
+    const $content = document.getElementById('content');
+    const $tabSuhang = document.getElementById('tab-suhang');
+    const $tabForms = document.getElementById('tab-forms');
+
+    function calcDDay(due) {
+      if (!due) return { label: '-', cls: 'none' };
+      const today = new Date(); today.setHours(0,0,0,0);
+      const d = new Date(due); d.setHours(0,0,0,0);
+      const diff = Math.floor((d - today) / (1000*60*60*24));
+      if (diff < 0) return { label: '마감', cls: 'expired' };
+      if (diff === 0) return { label: 'D-Day', cls: 'today' };
+      return { label: `D-${diff}`, cls: 'dday' };
+    }
+
+    function renderSuhang() {
+      const rows = MY_DATA.suhang.map(x => {
+        const d = calcDDay(x.due);
+        return `<tr>
+          <td>${x.title}</td>
+          <td>${x.teacher}</td>
+          <td>${x.due}</td>
+          <td class="${d.cls}">${d.label}</td>
+        </tr>`;
+      }).join('');
+      $content.innerHTML = `
+        <h2>📘 내가 제출한 수행평가</h2>
+        <table>
+          <thead><tr><th>제목</th><th>담당 교사</th><th>마감일</th><th>D-Day</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function renderForms() {
+      const rows = MY_DATA.forms.map(x => `
+        <tr>
+          <td>${x.type}</td>
+          <td>${x.category}</td>
+          <td>${x.date}</td>
+        </tr>`).join('');
+      $content.innerHTML = `
+        <h2>📝 내가 작성한 신청서</h2>
+        <table>
+          <thead><tr><th>신청 종류</th><th>세부 항목</th><th>신청일</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    $tabSuhang.onclick = () => {
+      $tabSuhang.classList.add('active');
+      $tabForms.classList.remove('active');
+      renderSuhang();
+    };
+
+    $tabForms.onclick = () => {
+      $tabForms.classList.add('active');
+      $tabSuhang.classList.remove('active');
+      renderForms();
+    };
+
+    renderSuhang();
+  </script>
+</body>
+</html>

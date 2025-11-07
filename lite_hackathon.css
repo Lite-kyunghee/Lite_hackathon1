@@ -420,3 +420,9 @@ body.light-mode .modal-footer small {
   margin-left: auto; /* 오른쪽 끝으로 이동 */
 }
 
+#todayLunch li:first-child {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6px;
+}
+

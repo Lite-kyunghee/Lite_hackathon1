@@ -200,4 +200,99 @@ setTimeout(() => {
   document.body.classList.remove('theme-transition');
 }, 600);
 
+// 📅 오늘의 급식 위젯 업데이트
+async function updateLunchMenu() {
+  const widget = document.querySelector(".widget[data-type='lunch']");
+  const content = widget.querySelector(".widget-content");
+  
+  try {
+    const response = await fetch("11월_급식표.xlsx");
+    const arrayBuffer = await response.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: "array" });
 
+    // 첫 번째 시트 읽기
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet);
+
+    // 오늘 날짜 구하기 (예: 11/08)
+    const today = new Date();
+    const month = today.getMonth() + 1; // 0부터 시작
+    const day = today.getDate();
+    const todayStr = `${month}/${day}`; // 예: "11/8"
+
+    // 급식 데이터에서 오늘 날짜 찾기
+    const todayMenu = data.find(row => {
+      const dateStr = String(row["날짜"]).replace(/\s/g, "");
+      return dateStr.includes(`${month}월`) && dateStr.includes(`${day}일`);
+    });
+
+    // 결과 표시
+    if (todayMenu && todayMenu["급식"]) {
+      const items = todayMenu["급식"].split("\n").map(i => `<li>${i.trim()}</li>`).join("");
+      content.innerHTML = `<ul>${items}</ul>`;
+    } else {
+      content.textContent = "오늘의 급식은 없습니다";
+    }
+  } catch (error) {
+    console.error("급식 데이터를 불러오는 중 오류 발생:", error);
+    content.textContent = "오늘의 급식은 없습니다";
+  }
+}
+
+// 페이지 로드 시 실행
+window.addEventListener("DOMContentLoaded", () => {
+  updateLunchMenu();
+});
+
+/* ============================= */
+/* 🍱 오늘의 급식 자동 표시 기능 (날짜 표시 추가) */
+/* ============================= */
+
+async function loadTodayLunch() {
+  const listElement = document.getElementById("todayLunch");
+  if (!listElement) return;
+
+  try {
+    // 급식 데이터 불러오기
+    const response = await fetch("data/meals.json");
+    const meals = await response.json();
+
+    // 오늘 날짜 구하기
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const todayStr = `${month}월 ${day}일`;
+
+    // 주말(토,일)에는 급식 없음
+    const dayOfWeek = today.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      listElement.innerHTML = `<li>${todayStr} 🍽️ 오늘의 급식은 없습니다</li>`;
+      return;
+    }
+
+    // 날짜 비교 (공백/‘2024년’ 제거)
+    const meal = meals.find(item => {
+      const cleanDate = item.날짜.replace(/\s/g, "").replace("2024년", "");
+      const target = todayStr.replace(/\s/g, "");
+      return cleanDate === target;
+    });
+
+    // 결과 표시
+    if (meal) {
+      const menuItems = meal.메뉴
+        .split(",")
+        .map(m => `<li>${m.trim()}</li>`)
+        .join("");
+      listElement.innerHTML = `<li><strong>${todayStr} 급식 🍱</strong></li>` + menuItems;
+    } else {
+      listElement.innerHTML = `<li>${todayStr} 🍽️ 오늘의 급식은 없습니다</li>`;
+    }
+  } catch (err) {
+    console.error("급식 데이터를 불러오는 중 오류:", err);
+    listElement.innerHTML = `<li>${todayStr} ❌ 급식 정보를 불러오지 못했습니다</li>`;
+  }
+}
+
+// 페이지 로드 시 실행
+document.addEventListener("DOMContentLoaded", loadTodayLunch);

@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <!-- lite_hackathon.html의 head 안에 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>L.I.T.E</title>
@@ -102,19 +104,18 @@
             <h3>오늘의 급식</h3>
             <button class="icon-btn sm remove-widget" title="위젯 삭제" aria-label="위젯 삭제">
               <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
           </header>
+
           <div class="widget-body">
-            <ul class="lunch-list">
-              <li>밥 · 국 · 불고기</li>
-              <li>배추김치</li>
-              <li>계란후라이</li>
-              <li>디저트(과일/요거트)</li>
+            <ul class="lunch-list" id="todayLunch">
+              <li>로딩 중...</li> <!-- JS에서 자동 교체 -->
             </ul>
           </div>
         </article>
+
       </section>
 
       <!-- 플러스 버튼 (위젯 옆) -->

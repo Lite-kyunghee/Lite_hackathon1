@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>L.I.T.E | My 페이지</title>
+  <link rel="stylesheet" href="my.css" />
   <style>
     body {
       margin: 0;
@@ -87,81 +88,7 @@
     <div id="content" class="card"></div>
   </main>
 
-  <script>
-    const MY_DATA = {
-      suhang: [
-        { title: '2학년 수학 - 확률과 통계 심화탐구', teacher: '강수미', due: '2025-10-25' },
-        { title: '2학년 과학 - 지구과학Ⅰ 과학탐구보고서', teacher: '김기권', due: '2025-10-20' },
-        { title: '2학년 영어 - Speaking 수행평가', teacher: '오가영', due: '2025-10-22' }
-      ],
-      forms: [
-        { type: '딥다이브 신청', category: '소프트웨어 딥다이브', date: '2025-09-10' },
-        { type: '석식 신청', category: '월~금 석식', date: '2025-11-03' },
-        { type: '학과체험 신청', category: '한양대학교 컴퓨터소프트웨어학과', date: '2025-10-05' },
-        { type: '경희프라임 신청', category: 'F1 코스', date: '2025-09-20' }
-      ]
-    };
-
-    const $content = document.getElementById('content');
-    const $tabSuhang = document.getElementById('tab-suhang');
-    const $tabForms = document.getElementById('tab-forms');
-
-    function calcDDay(due) {
-      if (!due) return { label: '-', cls: 'none' };
-      const today = new Date(); today.setHours(0,0,0,0);
-      const d = new Date(due); d.setHours(0,0,0,0);
-      const diff = Math.floor((d - today) / (1000*60*60*24));
-      if (diff < 0) return { label: '마감', cls: 'expired' };
-      if (diff === 0) return { label: 'D-Day', cls: 'today' };
-      return { label: `D-${diff}`, cls: 'dday' };
-    }
-
-    function renderSuhang() {
-      const rows = MY_DATA.suhang.map(x => {
-        const d = calcDDay(x.due);
-        return `<tr>
-          <td>${x.title}</td>
-          <td>${x.teacher}</td>
-          <td>${x.due}</td>
-          <td class="${d.cls}">${d.label}</td>
-        </tr>`;
-      }).join('');
-      $content.innerHTML = `
-        <h2>📘 내가 제출한 수행평가</h2>
-        <table>
-          <thead><tr><th>제목</th><th>담당 교사</th><th>마감일</th><th>D-Day</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>`;
-    }
-
-    function renderForms() {
-      const rows = MY_DATA.forms.map(x => `
-        <tr>
-          <td>${x.type}</td>
-          <td>${x.category}</td>
-          <td>${x.date}</td>
-        </tr>`).join('');
-      $content.innerHTML = `
-        <h2>📝 내가 작성한 신청서</h2>
-        <table>
-          <thead><tr><th>신청 종류</th><th>세부 항목</th><th>신청일</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>`;
-    }
-
-    $tabSuhang.onclick = () => {
-      $tabSuhang.classList.add('active');
-      $tabForms.classList.remove('active');
-      renderSuhang();
-    };
-
-    $tabForms.onclick = () => {
-      $tabForms.classList.add('active');
-      $tabSuhang.classList.remove('active');
-      renderForms();
-    };
-
-    renderSuhang();
-  </script>
+  <!-- ✅ 외부 스크립트 연결 -->
+  <script src="my.js"></script>
 </body>
 </html>

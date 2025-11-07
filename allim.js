@@ -25,14 +25,54 @@ function toggleDinnerFields() {
   }
 }
 
+/* ------------------------------
+   ✅ localStorage 기반 저장 로직
+   (학번 입력칸 ID 자동 인식 기능 포함)
+--------------------------------*/
+
+function getStudentIdValue() {
+  return (
+    document.getElementById("studentId")?.value ||
+    document.getElementById("id")?.value ||
+    document.getElementById("학번")?.value ||
+    ""
+  );
+}
+
+function saveApplication(data) {
+  const list = JSON.parse(localStorage.getItem("applications")) || [];
+  data.timestamp = new Date().toISOString();
+  list.push(data);
+  localStorage.setItem("applications", JSON.stringify(list));
+  console.log("✅ 저장 완료:", data);
+}
+
+/* 공통 신청서 */
 document.getElementById("commonForm")?.addEventListener("submit", (e) => {
   e.preventDefault();
-  alert("신청이 완료되었습니다.");
+
+  const name = document.getElementById("name")?.value || "";
+  const studentId = getStudentIdValue();
+  const category =
+    document.getElementById("formTitle")?.textContent.replace(" 신청서", "") ||
+    "기타 신청";
+
+  saveApplication({ category, name, studentId });
+  alert("신청이 완료되었습니다!");
   location.reload();
 });
 
+/* 석식 신청 */
 document.getElementById("dinnerForm")?.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  const name = document.getElementById("name")?.value || "";
+  const studentId = getStudentIdValue();
+  const days = Array.from(
+    document.querySelectorAll('input[name="dinnerDays"]:checked')
+  ).map((c) => c.value);
+
+  saveApplication({ category: "석식 신청", name, studentId, days });
   alert("석식 신청이 완료되었습니다.");
   location.reload();
 });
